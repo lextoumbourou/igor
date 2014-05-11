@@ -17,6 +17,7 @@
     <!-- Custom styles for this template -->
     <link href="jumbotron-narrow.css" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href="css/default.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -35,12 +36,19 @@
     <div class="container" ng-controller="MainController">
       <div class="header">
           <h3 class="text-muted">
-              <a class="btn btn-lg btn-success" href="#" role="button"><i class="fa fa-microphone"></i></a>
+              
           </h3>
       </div>
 
       <div class="jumbotron">
-        <h1 id="action" ng-bind="title"></h1>
+        
+          <h1>
+              <input type="text" ng-model="title" id="action" ng-enter="getMeaningOfTitle()">
+              <a class="btn btn-lg btn-success" href="#" role="button">
+                  <i class="fa fa-microphone"></i>
+              </a>
+          </h1>
+          
         <p class="lead" ng-bind="subtitle">{{ 'Tell me what you want.' }}</p>
       </div>
 

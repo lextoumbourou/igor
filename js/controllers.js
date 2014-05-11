@@ -2,6 +2,19 @@ var whyApp = angular.module('whyApp', []);
 var apiUrl = 'http://127.0.0.1:5000';
 
 
+whyApp.directive('ngEnter', function() {
+    return function(scope, element, attrs) {
+        element.bind('keydown keypress', function(event) {
+            if (event.which === 13) {
+                scope.$apply(function() {
+                    scope.$eval(attrs.ngEnter, {'event': event});
+                });
+
+                event.preventDefault();
+            }
+        });
+    };
+});
 whyApp.controller('MainController', function ($scope, $http) {
     $scope.title = 'Why Not?';
     $scope.subtitle = 'Tell me what you want';
@@ -12,7 +25,8 @@ whyApp.controller('MainController', function ($scope, $http) {
     $scope.interimTranscript = ''
     $scope.finalTranscript = '';
 
-    $scope.handlePlayMusic = function() {
+    $scope.handlePlayMusic = function(data) {
+        console.log(data);
         $scope.subtitle = 'Let the music play';
     };
 
@@ -37,7 +51,7 @@ whyApp.controller('MainController', function ($scope, $http) {
     };
 
     $scope.rec.onend = function(evt) {
-        $scope.rec.start();
+        //$scope.rec.start();
     };
 
     $scope.findAndUpdateResults = function(event) {
@@ -71,7 +85,7 @@ whyApp.controller('MainController', function ($scope, $http) {
             success(function(data, status) {
                 var intent = data['outcome']['intent'];
                 if (intent in $scope.messages) {
-                    $scope.messages[intent]();
+                    $scope.messages[intent](data);
                 }
             }).
             error(function() {
