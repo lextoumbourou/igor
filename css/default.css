@@ -1,0 +1,8 @@
+input#action {
+    background: none;
+    border: none;
+}
+
+input#action:focus {
+    outline: 0;
+}
