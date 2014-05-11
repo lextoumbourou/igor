@@ -9,11 +9,13 @@ app = Flask(__name__)
 
 @app.route("/")
 @cross_origin()
-def hello():
-    w = Wit(private.WIT_TOKEN)
-    result = w.get_message('Hello world')
+def get_message():
+    message = request.args.get('message')
+    if message:
+        w = Wit(private.WIT_TOKEN)
+        result = w.get_message(message)
 
-    return jsonify(result)
+        return jsonify(result)
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -67,7 +67,7 @@ whyApp.controller('MainController', function ($scope, $http) {
     };
 
     $scope.getMeaningOfTitle = function() {
-        $http.get(encodeURI(apiUrl + '?q=' + $scope.title)).
+        $http.get(encodeURI(apiUrl + '?message=' + $scope.title)).
             success(function(data, status) {
                 var intent = data['outcome']['intent'];
                 if (intent in $scope.messages) {
@@ -75,7 +75,7 @@ whyApp.controller('MainController', function ($scope, $http) {
                 }
             }).
             error(function() {
-                alert('That failed');
+                $scope.subtitle = 'Whoops, something failed...';
             });
     };
 });
