@@ -17,6 +17,7 @@ whyApp.directive('ngEnter', function() {
 });
 whyApp.controller('MainController', function ($scope, $http) {
     $scope.title = 'Why Not?';
+    $scope.body = false;
     $scope.subtitle = 'Tell me what you want';
 
     $scope.lastRecognition = 0;
@@ -83,10 +84,8 @@ whyApp.controller('MainController', function ($scope, $http) {
     $scope.getMeaningOfTitle = function() {
         $http.get(encodeURI(apiUrl + '?message=' + $scope.title)).
             success(function(data, status) {
-                var intent = data['outcome']['intent'];
-                if (intent in $scope.messages) {
-                    $scope.messages[intent](data);
-                }
+                $scope.subtitle = data['message'];
+                $scope.body = data.result.songs;
             }).
             error(function() {
                 $scope.subtitle = 'Whoops, something failed...';
