@@ -27,3 +27,9 @@ class XBMCAudioHandler():
         songs = song_data['result']['songs']
         random_index = random.randint(0, len(songs))
         return songs[random_index]
+
+    def add_song_to_playlist(self, song):
+        result = self.xbmc.Playlist.Add(playlistid=0, item={'songid': song['songid']})
+
+    def start_playlist(self):
+        self.xbmc.Player.Open(item={'playlistid': 0})

@@ -1,1 +1,2 @@
 from XBMCAudioHandler import XBMCAudioHandler
+from XBMCRouter import XBMCRouter
