@@ -6,7 +6,7 @@ from lib import XBMCAudioHandler
 import mock_json
 
 
-class TestXBMCAudioHandler(TestCase):
+class TestXbmc(TestCase):
     def setUp(self):
         self.xbmc_audio = XBMCAudioHandler(MagicMock())
 
@@ -23,4 +23,3 @@ class TestXBMCAudioHandler(TestCase):
         with patch('random.randint', return_value=1) as _:
             result = self.xbmc_audio.find_random_song({'artist': 'James Blake'})
             assert result['label'] == 'Song 2'
-
