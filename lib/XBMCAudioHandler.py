@@ -1,3 +1,5 @@
+import random
+
 from jellyfish import levenshtein_distance as l_dist
 
 
@@ -19,3 +21,9 @@ class XBMCAudioHandler():
                 lowest_artist = artist
 
         return lowest_artist
+
+    def find_random_song(self, filt):
+        song_data = self.conn.AudioLibrary.GetSongs(filt)
+        songs = song_data['result']['songs']
+        random_index = random.randint(0, len(songs))
+        return songs[random_index]

@@ -1,5 +1,5 @@
 from unittest import TestCase
-from mock import MagicMock
+from mock import MagicMock, patch
 
 from lib import XBMCAudioHandler
 
@@ -16,3 +16,11 @@ class TestXBMCAudioHandler(TestCase):
         result = self.xbmc_audio.find_closest_artist_match(
             'james blake')
         assert result['label'] == 'James Blake'
+
+    def test_find_a_random_song_by_artist_returns_song(self):
+        (self.xbmc_audio
+            .conn.AudioLibrary.GetSongs.return_value) = mock_json.SONG_JSON
+        with patch('random.randint', return_value=1) as _:
+            result = self.xbmc_audio.find_random_song({'artist': 'James Blake'})
+            assert result['label'] == 'Song 2'
+
