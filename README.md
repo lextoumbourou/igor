@@ -1,6 +1,6 @@
 # Igor - Wit, Web Audio API and XBMC experiment
 
-Like everything in life, inspired by the movie [Brainscan](//www.youtube.com/mT1Vr13s17U?t=25m33s) (25m 33s).
+Like everything in life, inspired by the movie [Brainscan](http://youtu.be/mT1Vr13s17U?t=25m33s) (25m 33s).
 
 ## Quickstart
 
