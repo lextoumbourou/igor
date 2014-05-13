@@ -1,6 +1,4 @@
 var whyApp = angular.module('whyApp', []);
-var apiUrl = 'http://127.0.0.1:5000';
-
 
 whyApp.directive('ngEnter', function() {
     return function(scope, element, attrs) {
@@ -82,10 +80,9 @@ whyApp.controller('MainController', function ($scope, $http) {
     };
 
     $scope.getMeaningOfTitle = function() {
-        $http.get(encodeURI(apiUrl + '?message=' + $scope.title)).
+        $http.get(encodeURI('/handle_message?q=' + $scope.title)).
             success(function(data, status) {
                 $scope.subtitle = data['message'];
-                $scope.body = data.result.songs;
             }).
             error(function() {
                 $scope.subtitle = 'Whoops, something failed...';
