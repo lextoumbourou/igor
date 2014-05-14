@@ -1,2 +1,2 @@
-from XBMCAudioHandler import XBMCAudioHandler
-from XBMCRouter import XBMCRouter
+from XBMCAudioHandler import XBMCAudioHandler  # noqa
+from XBMCRouter import XBMCRouter  # noqa

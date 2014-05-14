@@ -6,6 +6,7 @@ from jellyfish import levenshtein_distance as l_dist
 class SongNotFound(Exception):
     pass
 
+
 class XBMCAudioHandler(object):
     def __init__(self, conn):
         self.conn = conn
@@ -38,12 +39,14 @@ class XBMCAudioHandler(object):
             raise SongNotFound
 
     def clear_playlist(self):
-        self.conn.Playlist.Clear(playlistid=0)
+        return self.conn.Playlist.Clear(playlistid=0)
 
     def add_song_to_playlist(self, song):
-        result = self.conn.Playlist.Add(playlistid=0, item={'songid': song['songid']})
-        
+        return self.conn.Playlist.Add(
+            playlistid=0, item={'songid': song['songid']})
+
     def play_last_song(self):
         returned = self.conn.Playlist.GetItems(playlistid=0)
         position = len(returned['result']['items']) - 1
-        self.conn.Player.Open(item={'playlistid': 0, 'position': position})
+        return self.conn.Player.Open(
+            item={'playlistid': 0, 'position': position})

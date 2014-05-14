@@ -1,5 +1,3 @@
-from xbmcjson import XBMC, PLAYER_VIDEO
-
 from XBMCAudioHandler import XBMCAudioHandler
 from messages import MESSAGES
 
@@ -39,5 +37,6 @@ class XBMCRouter():
         self.audio_handler.clear_playlist()
         self.audio_handler.add_song_to_playlist(song)
         self.audio_handler.play_last_song()
-        output['message'] = "Cool, I'm going to go ahead and play ..." + song['label']
+        output['message'] = (
+            "Cool, I'm going to go ahead and play ..." + song['label'])
         return output

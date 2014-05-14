@@ -9,9 +9,11 @@ import private
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def serve_homepage():
     return render_template('app.html')
+
 
 @app.route("/handle_message")
 @cross_origin()
@@ -27,7 +29,6 @@ def handle_message():
         xbmc_result = router.route(result)
 
         return jsonify(xbmc_result)
-
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

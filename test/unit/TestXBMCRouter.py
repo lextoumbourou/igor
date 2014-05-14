@@ -15,7 +15,7 @@ class TestXbmcRouter(TestCase):
                 'intent': 'play_audio',
                 'entities': {
                     'artist': {'value': 'James Blake'},
-                  }
+                }
             }
         }
         audio_mock = MagicMock()
