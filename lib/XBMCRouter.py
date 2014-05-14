@@ -29,7 +29,7 @@ class XBMCRouter():
             potential_artist = self.audio_handler.find_closest_artist_match(
                 artist_to_search)
             if potential_artist:
-                track_filter['artist'] = potential_artist
+                track_filter['artist'] = potential_artist['label']
             else:
                 output['message'] = MESSAGES['artist_not_found'].format(
                     artist_to_search)
