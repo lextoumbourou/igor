@@ -18,7 +18,7 @@ class XBMCAudioHandler(object):
         lowest = float('inf')
         lowest_artist = None
         for artist in artists_data['result']['artists']:
-            distance = l_dist(name, artist['label'])
+            distance = l_dist(name, artist['label'].encode('utf-8'))
             if (distance <= lowest) and (distance <= self.max_distance):
                 lowest = distance
                 lowest_artist = artist
@@ -30,7 +30,6 @@ class XBMCAudioHandler(object):
         if filt:
             kwargs['filter'] = filt
         returned = self.conn.AudioLibrary.GetSongs(kwargs)
-        print returned
         if returned['result']:
             songs = returned['result']['songs']
             random_index = random.randint(0, len(songs))
