@@ -1,7 +1,7 @@
 ARTIST_JSON = {
     'id': 1,
     'jsonrpc': 2.0,
-    'results': {
+    'result': {
         'artists': [
             {'label': 'James Blake', 'artistid': 1},
             {'label': 'Mark Morrison', 'artistid': 2},
