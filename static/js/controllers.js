@@ -31,10 +31,6 @@ whyApp.controller('MainController', function ($scope, $http) {
     $scope.interimTranscript = ''
     $scope.finalTranscript = '';
 
-    $scope.handlePlayMusic = function(data) {
-        $scope.updateAndPlay('Let the music play');
-    };
-
     $scope.messages = {
         'play_music': $scope.handlePlayMusic,
     };
