@@ -33,10 +33,22 @@ class XBMCRouter():
                     artist_to_search)
                 return output
 
-        song = self.audio_handler.find_random_song(track_filter)
+        if 'selection' in entities:
+            if entities['selection']['value'] == 'exact':
+                song_name = entities['song']['value']
+                song = self.audio_handler.find_song(track_filter, song_name)
+                if not song:
+                    output['message'] = MESSAGES['song_not_found']
+                    return output
+            else:
+                song = self.audio_handler.find_random_song(track_filter)
+
         self.audio_handler.clear_playlist()
         self.audio_handler.add_song_to_playlist(song)
         self.audio_handler.play_last_song()
         output['message'] = (
-            "Cool, I'm going to go ahead and play ..." + song['label'])
+            "Okay. I'll play {} - {}".format(
+                potential_artist['label'], song['label'])
+        )
+
         return output

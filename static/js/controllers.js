@@ -14,9 +14,16 @@ whyApp.directive('ngEnter', function() {
     };
 });
 whyApp.controller('MainController', function ($scope, $http) {
+    $scope.msg = new SpeechSynthesisUtterance();
     $scope.title = 'Why Not?';
     $scope.body = false;
     $scope.subtitle = 'Tell me what you want';
+    $scope.potential = 'Test';
+    $scope.updateAndPlay = function(text) {
+        $scope.subtitle = text;
+        $scope.msg.text = text;
+        window.speechSynthesis.speak($scope.msg);
+    };
 
     $scope.lastRecognition = 0;
     $scope.timeBetweenCommands = 3000;
@@ -25,8 +32,7 @@ whyApp.controller('MainController', function ($scope, $http) {
     $scope.finalTranscript = '';
 
     $scope.handlePlayMusic = function(data) {
-        console.log(data);
-        $scope.subtitle = 'Let the music play';
+        $scope.updateAndPlay('Let the music play');
     };
 
     $scope.messages = {
@@ -70,6 +76,13 @@ whyApp.controller('MainController', function ($scope, $http) {
         $scope.getMeaningOfTitle();
     };
 
+    $scope.handleResults = function(data) {
+        if ('potential' in data) {
+            $scope.body = data['potential'];
+        }
+        $scope.updateAndPlay(data['message']);
+    }
+
     $scope.rec.start();
 
     $scope.clearLastCommand = function() {
@@ -82,10 +95,11 @@ whyApp.controller('MainController', function ($scope, $http) {
     $scope.getMeaningOfTitle = function() {
         $http.get(encodeURI('/handle_message?q=' + $scope.title)).
             success(function(data, status) {
-                $scope.subtitle = data['message'];
+                $scope.handleResults(data);
             }).
             error(function() {
-                $scope.subtitle = 'Whoops, something failed...';
+                message = "Something is wrong with the server. Can you fix it?"
+                $scope.updateAndPlay(message);
             });
     };
 });

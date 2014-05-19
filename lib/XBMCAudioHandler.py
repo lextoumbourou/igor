@@ -38,6 +38,22 @@ class XBMCAudioHandler(object):
         else:
             raise SongNotFound
 
+    def find_song(self, filt, name):
+        kwargs = {}
+        if filt:
+            kwargs['filter'] = filt
+        returned = self.conn.AudioLibrary.GetSongs(kwargs)
+
+        lowest = float('inf')
+        lowest_artist = None
+        for song in returned['result']['songs']:
+            distance = l_dist(name, song['label'].encode('utf-8'))
+            if (distance <= lowest) and (distance <= self.max_distance):
+                lowest = distance
+                lowest_song = song
+
+        return lowest_song
+
     def clear_playlist(self):
         return self.conn.Playlist.Clear(playlistid=0)
 
