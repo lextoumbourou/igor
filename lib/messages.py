@@ -6,4 +6,10 @@ MESSAGES = {
     'action_not_found': (
         "Damn. I'm not sure what to do. Can you ask again?" 
     ),
+    'song_and_artist_found': (
+        "Okay. I'll play {} - {}"
+    ),
+    'video_not_found': (
+        "Sorry. I can't find a video called {}"
+    )
 }
