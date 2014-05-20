@@ -24,7 +24,7 @@ class XBMCAudioHandler(XBMCHandler):
         if filt:
             kwargs['filter'] = filt
         song_data = self.conn.AudioLibrary.GetSongs(kwargs)
-        songs = returned['result']['songs']
+        songs = song_data['result']['songs']
         return helpers.find_closest_match(name, songs, self.max_distance)
 
     def find_random_song(self, filt):
