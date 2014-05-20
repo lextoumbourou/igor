@@ -9,11 +9,11 @@ class XBMCHandler(object):
     def clear_playlist(self):
         return self.conn.Playlist.Clear(playlistid=self.playlist_id)
 
-    def add_song_to_playlist(self, item):
+    def add_item_to_playlist(self, item):
         return self.conn.Playlist.Add(
             playlistid=self.playlist_id, item=item)
 
-    def play_last_song(self):
+    def play_last_playlist_item(self):
         returned = self.conn.Playlist.GetItems(playlistid=self.playlist_id)
         position = len(returned['result']['items']) - 1
         return self.conn.Player.Open(
