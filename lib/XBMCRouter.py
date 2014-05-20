@@ -49,10 +49,16 @@ class XBMCRouter():
                 video = self.video_handler.find_random_video(
                     video_filter, video_type)
 
-        self.video_handler.clear_playlist()
-        self.video_handler.add_song_to_playlist(song)
-        self.video_handler.play_last_song()
-        output['message'] = MESSAGES['video_not_found'].format(video['label'])
+
+        if video:
+            self.video_handler.clear_playlist()
+            self.video_handler.add_item_to_playlist({'movieid': video['movieid']})
+            self.video_handler.play_last_playlist_item()
+            output['message'] = MESSAGES['video_found'].format(
+                video['label'])
+        else:
+            output['message'] = MESSAGES['video_not_found'].format(video['label'])
+
         return output
 
     def handle_audio(self, outcome):

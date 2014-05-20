@@ -11,5 +11,8 @@ MESSAGES = {
     ),
     'video_not_found': (
         "Sorry. I can't find a video called {}"
+    ),
+    'video_found': (
+        "Okay. Let's watch {}"
     )
 }
