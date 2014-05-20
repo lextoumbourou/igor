@@ -64,6 +64,7 @@ class XBMCRouter():
     def handle_audio(self, outcome):
         track_filter = {}
         output = {}
+        song = None
         entities = outcome['entities']
         if 'artist' in entities:
             artist_to_search = entities['artist']['value']
@@ -76,21 +77,20 @@ class XBMCRouter():
                     artist_to_search)
                 return output
 
-        if 'selection' in entities:
-            selection = entities['selection']['value']
-            if selection == 'exact':
-                song_name = entities['song']['value']
-                song = self.audio_handler.find_song(track_filter, song_name)
-                if not song:
-                    output['message'] = MESSAGES['song_not_found']
-                    return output
-            elif selection == 'random':
-                song = self.audio_handler.find_random_song(track_filter)
+        if entities.get('selection') == 'exact' or 'song' in entities:
+            song_name = entities['song']['value']
+            song = self.audio_handler.find_song(track_filter, song_name)
+            if not song:
+                output['message'] = MESSAGES['song_not_found']
+                return output
+
+        if entities.get('selection') == 'random':
+            song = self.audio_handler.find_random_song(track_filter)
 
         if song:
             self.audio_handler.clear_playlist()
-            self.audio_handler.add_song_to_playlist({'songid': song['songid']})
-            self.audio_handler.play_last_song()
+            self.audio_handler.add_item_to_playlist({'songid': song['songid']})
+            self.audio_handler.play_last_playlist_item()
             output['message'] = MESSAGES['song_and_artist_found'].format(
                 potential_artist['label'], song['label'])
         else:
