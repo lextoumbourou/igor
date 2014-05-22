@@ -3,20 +3,18 @@
 {% block body %}
 {% raw %}
 <div class="container" ng-controller="MainController">
-  <div class="header">
-      <h3 class="text-muted">
-          
-      </h3>
+  <div class="row header-box">
+    <div class="col-xs-10">
+      <textarea ng-model="title" id="action" ng-enter="getMeaningOfTitle()"></textarea>
+    </div>
+    <div class="col-xs-2">
+      <a class="btn btn-lg btn-success" href="#" role="button">
+        <i class="fa fa-microphone"></i>
+      </a>
+    </div>
   </div>
 
-  <div class="jumbotron">
-      <h1>
-          <input type="text" ng-model="title" id="action" ng-enter="getMeaningOfTitle()">
-          <a class="btn btn-lg btn-success" href="#" role="button">
-              <i class="fa fa-microphone"></i>
-          </a>
-      </h1>
-      
+  <div class="">
     <p class="lead" ng-bind="subtitle">{{ 'Tell me what you want.' }}</p>
   </div>
 

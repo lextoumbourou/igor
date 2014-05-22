@@ -1,8 +1,14 @@
-input#action {
+textarea#action {
     background: none;
     border: none;
+    width: 100%;
+    font-size: 25px;
 }
 
-input#action:focus {
+textarea#action:focus {
     outline: 0;
+}
+
+.header-box {
+    background-color: #eee;
 }
