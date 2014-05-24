@@ -39,7 +39,7 @@ class XBMCRouter():
             if potential_genre:
                 video_filter['genre'] = potential_genre['label']
             else:
-                output['message'] = MESSAGE['genre_not_found'].format(
+                output['message'] = MESSAGES['genre_not_found'].format(
                     genre_to_search)
                 return output
 
@@ -64,7 +64,7 @@ class XBMCRouter():
     def handle_audio(self, outcome):
         track_filter = {}
         output = {}
-        song = None
+        potential_artist = song = None
         entities = outcome['entities']
         if 'artist' in entities:
             artist_to_search = entities['artist']['value']
@@ -77,22 +77,26 @@ class XBMCRouter():
                     artist_to_search)
                 return output
 
-        if entities.get('selection') == 'exact' or 'song' in entities:
-            song_name = entities['song']['value']
-            song = self.audio_handler.find_song(track_filter, song_name)
-            if not song:
-                output['message'] = MESSAGES['song_not_found']
-                return output
+        if 'selection' in entities:
+            if entities['selection'].get('body') == 'exact' or 'song' in entities:
+                song_name = entities['song']['value']
+                song = self.audio_handler.find_song(track_filter, song_name)
+                if not song:
+                    output['message'] = MESSAGES['song_not_found']
+                    return output
 
-        if entities.get('selection') == 'random':
-            song = self.audio_handler.find_random_song(track_filter)
+            if entities['selection'].get('body') == 'random':
+                song = self.audio_handler.find_random_song(track_filter)
 
         if song:
             self.audio_handler.clear_playlist()
             self.audio_handler.add_item_to_playlist({'songid': song['songid']})
             self.audio_handler.play_last_playlist_item()
-            output['message'] = MESSAGES['song_and_artist_found'].format(
-                potential_artist['label'], song['label'])
+            if potential_artist:
+                output['message'] = MESSAGES['song_and_artist_found'].format(
+                    potential_artist['label'], song['label'])
+            else:
+                output['message'] = MESSAGES['song_found'].format(song['label'])
         else:
             output['message'] = MESSAGES['action_not_found']
 
