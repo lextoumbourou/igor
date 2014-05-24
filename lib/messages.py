@@ -9,6 +9,9 @@ MESSAGES = {
     'song_and_artist_found': (
         "Okay. I'll play {} - {}"
     ),
+    'song_found': (
+        "Okay, I'll play {}"
+    ),
     'video_not_found': (
         "Sorry. I can't find a video called {}"
     ),
