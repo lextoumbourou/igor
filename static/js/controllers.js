@@ -31,8 +31,7 @@ whyApp.controller('MainController', function ($scope, $http) {
     $scope.interimTranscript = ''
     $scope.finalTranscript = '';
 
-    $scope.messages = {
-        'play_music': $scope.handlePlayMusic,
+    $scope.messages = { 'play_music': $scope.handlePlayMusic,
     };
 
     $scope.isNewCommand = function() {
@@ -52,7 +51,6 @@ whyApp.controller('MainController', function ($scope, $http) {
     };
 
     $scope.rec.onend = function(evt) {
-        //$scope.rec.start();
     };
 
     $scope.findAndUpdateResults = function(event) {
@@ -79,8 +77,6 @@ whyApp.controller('MainController', function ($scope, $http) {
         $scope.updateAndPlay(data['message']);
     }
 
-    $scope.rec.start();
-
     $scope.clearLastCommand = function() {
         var tmpTime = new Date().getTime();
         if (tmpTime - $scope.lastRecognition > $scope.timeBetweenCommands) {
@@ -97,5 +93,13 @@ whyApp.controller('MainController', function ($scope, $http) {
                 message = "Something is wrong with the server. Can you fix it?"
                 $scope.updateAndPlay(message);
             });
+    };
+
+    $scope.startListening = function() {
+        $scope.rec.start();
+    };
+
+    $scope.stopListening = function() {
+        $scope.rec.stop();
     };
 });

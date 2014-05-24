@@ -8,9 +8,9 @@
       <textarea ng-model="title" id="action" ng-enter="getMeaningOfTitle()"></textarea>
     </div>
     <div class="col-xs-2">
-      <a class="btn btn-lg btn-success" href="#" role="button">
+      <button class="btn btn-lg btn-success" role="button" ng-mousedown="startListening()" ng-mouseup="stopListening()">
         <i class="fa fa-microphone"></i>
-      </a>
+      </button>
     </div>
   </div>
 
