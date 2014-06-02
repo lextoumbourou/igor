@@ -38,4 +38,5 @@ class TestXbmc(TestCase):
     #    audio_mock.find_closest_artist_match.return_value = None
     #    self.xbmc_router.audio_handler = audio_mock
     #    output = self.xbmc_router.route(result)
-    #    assert output['message'] == MESSAGES['artist_not_found'].format(artist)
+    #    assert output['message'] == (
+    #        MESSAGES['artist_not_found'].format(artist))

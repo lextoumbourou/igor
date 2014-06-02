@@ -1,8 +1,8 @@
 from XBMCHandler import XBMCHandler
-import helpers
 from .messages import MESSAGES
 
-from .xbmc import find_song, find_closest_artist_match, find_random_song
+from .xbmc import find_closest_artist_match
+
 
 class XBMCListAudioHandler(XBMCHandler):
     def __init__(self, conn):
@@ -31,15 +31,14 @@ class XBMCListAudioHandler(XBMCHandler):
         if 'artist' in entities and entities.get('selection', {}).get('value'):
             artist_to_search = entities['artist']['body']
             potential_artist = find_closest_artist_match(
-                    artist_to_search, self.conn, self.max_distance)
+                artist_to_search, self.conn, self.max_distance)
             if potential_artist:
                 track_filter = {'artist': potential_artist['label']}
                 return {
                     'body': self.list_audio_by_artist(track_filter),
-                    'message': MESSAGES['song_list_by_artist'].format(potential_artist['label'])
+                    'message': MESSAGES['song_list_by_artist'].format(
+                        potential_artist['label'])
                 }
-
-
             else:
                 output['message'] = MESSAGES['artist_not_found'].format(
                     artist_to_search)

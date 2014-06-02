@@ -1,7 +1,6 @@
 import mock
 
 from lib.XBMCRouter import XBMCRouter
-from lib.messages import MESSAGES
 
 
 class TestXbmcRouter():

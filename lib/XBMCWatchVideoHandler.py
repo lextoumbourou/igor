@@ -38,14 +38,15 @@ class XBMCWatchVideoHandler(XBMCHandler):
 
         if video:
             self.video_handler.clear_playlist()
-            self.video_handler.add_item_to_playlist({'movieid': video['movieid']})
+            self.video_handler.add_item_to_playlist(
+                {'movieid': video['movieid']})
             self.video_handler.play_last_playlist_item()
             output['message'] = MESSAGES['video_found'].format(
                 video['label'])
         else:
-            output['message'] = MESSAGES['video_not_found'].format(video['label'])
+            output['message'] = MESSAGES['video_not_found'].format(
+                video['label'])
 
-    
     def find_closest_genre_match(self, name, video_type):
         genre_data = self.conn.VideoLibrary.GetGenres(type=video_type)
         genres = genre_data['result']['genres']

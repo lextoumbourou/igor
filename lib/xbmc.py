@@ -1,4 +1,4 @@
-from . import helpers
+from . import helpers, exceptions
 
 
 def find_song(self, filt, name, conn):
@@ -19,7 +19,7 @@ def find_random_song(self, filt, conn):
         songs = returned['result']['songs']
         return helpers.find_random_item(songs)
     else:
-        raise SongNotFound
+        raise exceptions.SongNotFound
 
 
 def find_closest_artist_match(name, conn, max_distance):

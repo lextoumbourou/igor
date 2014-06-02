@@ -1,13 +1,7 @@
 from XBMCHandler import XBMCHandler
-import helpers
-
-from .messages import MESSAGES
 
 from .xbmc import find_song, find_closest_artist_match, find_random_song
-
-
-class SongNotFound(Exception):
-    pass
+from .messages import MESSAGES
 
 
 class XBMCPlayAudioHandler(XBMCHandler):
@@ -33,7 +27,10 @@ class XBMCPlayAudioHandler(XBMCHandler):
                 return output
 
         if 'selection' in entities:
-            if entities['selection'].get('body') == 'exact' or 'song' in entities:
+            if (
+                entities['selection'].get('body') == 'exact' or
+                'song' in entities
+            ):
                 song_name = entities['song']['value']
                 song = find_song(track_filter, song_name)
                 if not song:
@@ -51,10 +48,9 @@ class XBMCPlayAudioHandler(XBMCHandler):
                 output['message'] = MESSAGES['song_and_artist_found'].format(
                     potential_artist['label'], song['label'])
             else:
-                output['message'] = MESSAGES['song_found'].format(song['label'])
+                output['message'] = (
+                    MESSAGES['song_found'].format(song['label']))
         else:
             output['message'] = MESSAGES['action_not_found']
 
         return output
-
-    

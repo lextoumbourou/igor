@@ -4,7 +4,7 @@ MESSAGES = {
     'song_not_found': (
         "Hmm...I don't think I have a song that sounds like that"),
     'action_not_found': (
-        "Damn. I'm not sure what to do. Can you ask again?" 
+        "Damn. I'm not sure what to do. Can you ask again?"
     ),
     'song_and_artist_found': (
         "Okay. I'll play {} - {}"

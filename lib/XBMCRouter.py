@@ -1,7 +1,6 @@
 from .XBMCListAudioHandler import XBMCListAudioHandler
 from .XBMCWatchVideoHandler import XBMCWatchVideoHandler
 from .XBMCPlayAudioHandler import XBMCPlayAudioHandler
-from messages import MESSAGES
 
 
 class XBMCRouter():
