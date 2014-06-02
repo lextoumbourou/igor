@@ -18,7 +18,7 @@ class XBMCPlayAudioHandler(XBMCHandler):
         if 'artist' in entities:
             artist_to_search = entities['artist']['value']
             potential_artist = find_closest_artist_match(
-                artist_to_search, self.conn, self.max_distance)
+                artist_to_search, self.max_distance, self.conn)
             if potential_artist:
                 track_filter['artist'] = potential_artist['label']
             else:
@@ -32,13 +32,14 @@ class XBMCPlayAudioHandler(XBMCHandler):
                 'song' in entities
             ):
                 song_name = entities['song']['value']
-                song = find_song(track_filter, song_name)
+                song = find_song(
+                    track_filter, song_name, self.max_distance, self.conn)
                 if not song:
                     output['message'] = MESSAGES['song_not_found']
                     return output
 
             if entities['selection'].get('body') == 'random':
-                song = find_random_song(track_filter)
+                song = find_random_song(track_filter, self.conn)
 
         if song:
             self.clear_playlist()

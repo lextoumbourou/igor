@@ -31,7 +31,7 @@ class XBMCListAudioHandler(XBMCHandler):
         if 'artist' in entities and entities.get('selection', {}).get('value'):
             artist_to_search = entities['artist']['body']
             potential_artist = find_closest_artist_match(
-                artist_to_search, self.conn, self.max_distance)
+                artist_to_search, self.max_distance, self.conn)
             if potential_artist:
                 track_filter = {'artist': potential_artist['label']}
                 return {

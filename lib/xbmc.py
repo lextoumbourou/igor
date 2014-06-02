@@ -1,16 +1,16 @@
 from . import helpers, exceptions
 
 
-def find_song(self, filt, name, conn):
+def find_song(filt, name, max_distance, conn):
     kwargs = {}
     if filt:
         kwargs['filter'] = filt
     song_data = conn.AudioLibrary.GetSongs(kwargs)
     songs = song_data['result']['songs']
-    return helpers.find_closest_match(name, songs, self.max_distance)
+    return helpers.find_closest_match(name, songs, max_distance)
 
 
-def find_random_song(self, filt, conn):
+def find_random_song(filt, conn):
     kwargs = {}
     if filt:
         kwargs['filter'] = filt
@@ -22,7 +22,7 @@ def find_random_song(self, filt, conn):
         raise exceptions.SongNotFound
 
 
-def find_closest_artist_match(name, conn, max_distance):
+def find_closest_artist_match(name, max_distance, conn):
     artists_data = conn.AudioLibrary.GetArtists()
     artists = artists_data['result']['artists']
     return helpers.find_closest_match(name, artists, max_distance)
