@@ -31,7 +31,7 @@ Like everything in life, inspired by the movie [Brainscan](http://youtu.be/mT1Vr
 1. Improve support for listing audio, include meta data and so forth
 2. Add support for listing movies
 3. Add contextual events
-  * Example: If I to list all genres of a movie, my next "Watch Movie" request should place a higher weight on the ones listed on the screen.
+  * Example: If I request to list all genres of a movie, my next "Watch Movie" request should place a higher weight on the ones already listed
 4. Remove the Wit proxy and make calls to Wit using just JS and WebSockets
 5. Send audio data directly to Wit, removing the need for the Chrome Voice Recognition API
 6. Remove the XBMC proxy :) and make calls to XBMC with JS and WebSockets
