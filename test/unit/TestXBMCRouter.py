@@ -1,15 +1,15 @@
-from unittest import TestCase
-from mock import MagicMock
+import mock
 
-from lib import XBMCRouter
+from lib.XBMCRouter import XBMCRouter
 from lib.messages import MESSAGES
 
 
-class TestXbmcRouter(TestCase):
+class TestXbmcRouter():
     def setUp(self):
-        self.xbmc_router = XBMCRouter(MagicMock())
+        self.xbmc_router = XBMCRouter(mock.MagicMock())
 
-    def test_route_to_audio_when_request(self):
+    @mock.patch('lib.XBMCRouter.XBMCPlayAudioHandler')
+    def test_route_to_audio_when_request(self, audio_mock):
         result = {
             'outcome': {
                 'intent': 'play_audio',
@@ -18,25 +18,28 @@ class TestXbmcRouter(TestCase):
                 }
             }
         }
-        audio_mock = MagicMock()
-        audio_mock.return_value = 'Audio'
-        self.xbmc_router.handle_audio = audio_mock
+        self.xbmc_router.route(result)
+        assert audio_mock.called
 
-        result = self.xbmc_router.route(result)
-        assert result == 'Audio'
-
-    def test_output_failure_message_when_no_artist_found(self):
-        artist = 'Some goose'
+    @mock.patch('lib.XBMCRouter.XBMCListAudioHandler')
+    def test_list_audio_when_request(self, list_audio_mock):
         result = {
             'outcome': {
-                'intent': 'play_audio',
+                'intent': 'list_audio',
                 'entities': {
-                    'artist': {'value': artist},
+                    'artist': {'value': 'James Blake'},
                 }
             }
         }
-        audio_mock = MagicMock()
-        audio_mock.find_closest_artist_match.return_value = None
-        self.xbmc_router.audio_handler = audio_mock
-        output = self.xbmc_router.route(result)
-        assert output['message'] == MESSAGES['artist_not_found'].format(artist)
+        result = self.xbmc_router.route(result)
+        assert list_audio_mock.called
+
+    @mock.patch('lib.XBMCRouter.XBMCWatchVideoHandler')
+    def test_watch_video_when_request(self, watch_video_mock):
+        result = {
+            'outcome': {
+                'intent': 'watch_video',
+            }
+        }
+        result = self.xbmc_router.route(result)
+        assert watch_video_mock.called

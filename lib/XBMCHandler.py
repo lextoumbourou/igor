@@ -6,6 +6,9 @@ class XBMCHandler(object):
         self.max_distance = 3
         self.playlist_id = 0
 
+    def run(self):
+        raise NotImplementedError('Subclass should implement this')
+
     def clear_playlist(self):
         return self.conn.Playlist.Clear(playlistid=self.playlist_id)
 

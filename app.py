@@ -4,7 +4,7 @@ from flask_cors import cross_origin
 from wit import Wit
 from xbmcjson import XBMC
 
-from lib import XBMCRouter
+from lib.XBMCRouter import XBMCRouter
 import private
 
 app = Flask(__name__)

@@ -1,4 +1,4 @@
-var whyApp = angular.module('whyApp', []);
+var whyApp = angular.module('whyApp', ['rt.encodeuri']);
 
 whyApp.directive('ngEnter', function() {
     return function(scope, element, attrs) {
@@ -13,6 +13,7 @@ whyApp.directive('ngEnter', function() {
         });
     };
 });
+
 whyApp.controller('MainController', function ($scope, $http) {
     $scope.msg = new SpeechSynthesisUtterance();
     $scope.title = 'Why Not?';
@@ -71,8 +72,8 @@ whyApp.controller('MainController', function ($scope, $http) {
     };
 
     $scope.handleResults = function(data) {
-        if ('potential' in data) {
-            $scope.body = data['potential'];
+        if ('body' in data && data['body']) {
+            $scope.body = data['body'];
         }
         $scope.updateAndPlay(data['message']);
     }

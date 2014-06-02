@@ -17,5 +17,7 @@ MESSAGES = {
     ),
     'video_found': (
         "Okay. Let's watch {}"
-    )
+    ),
+    'song_list_by_artist': 'Here is a list of songs by {}',
+    'cant_find_artist_to_list': 'Failed to find an artist by that name'
 }
