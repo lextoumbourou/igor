@@ -1,11 +1,14 @@
-describe('MainController', function() {
+describe('igor controllers', function() {
 
-    beforeEach(module('whyApp'));
+  describe('MainController', function() {
 
-    it('should have the correct initial title', function() {
-        var scope = {},
-            ctrl = new MainController(scope);
+      beforeEach(module('whyApp'));
 
-        expect(ctrl.title).toBe('Why?');
-    });
+      it('should have the correct initial title', inject(function($controller) {
+          var scope = {},
+              ctrl = $controller('MainController', {$scope:scope});
+
+          expect(scope.title).toBe('Why Not?');
+      }));
+  });
 });
