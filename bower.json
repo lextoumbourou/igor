@@ -6,6 +6,7 @@
     "html5shiv": "~3.7.0",
     "respond": "~1.4.2",
     "angular": "~1.2.16",
-    "angular-encode-uri": "~0.0.1"
+    "angular-encode-uri": "~0.0.1",
+    "angular-mocks": "~1.2.16"
   }
 }
