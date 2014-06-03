@@ -1,0 +1,27 @@
+{
+  "name": "igor",
+  "version": "0.0.1",
+  "description": "An XBMC and Wit.ai voice recognition experiment",
+  "main": "static/js/controllers.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "karma": "~0.12.16",
+    "karma-chrome-launcher": "~0.1.4",
+    "karma-jasmine": "~0.1.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "./node_modules/karma/bin/karma start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lextoumbourou/igor.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lextoumbourou/igor/issues"
+  }
+}
