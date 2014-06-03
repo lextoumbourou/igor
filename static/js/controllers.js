@@ -15,15 +15,15 @@ whyApp.directive('ngEnter', function() {
 });
 
 whyApp.controller('MainController', function ($scope, $http) {
-    $scope.msg = new SpeechSynthesisUtterance();
     $scope.title = 'Why Not?';
     $scope.body = false;
     $scope.subtitle = 'Tell me what you want';
     $scope.potential = 'Test';
     $scope.updateAndPlay = function(text) {
+        msg = new SpeechSynthesisUtterance();
         $scope.subtitle = text;
-        $scope.msg.text = text;
-        window.speechSynthesis.speak($scope.msg);
+        msg.text = text;
+        window.speechSynthesis.speak(msg);
     };
 
     $scope.lastRecognition = 0;
