@@ -11,15 +11,13 @@
     <title>Confuse the Computer</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="{{ url_for('static', filename='vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='vendor/bootstrap/dist/css/bootstrap-theme.css') }}" rel="stylesheet">
+    <link href="vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendor/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="jumbotron-narrow.css" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-    <link href="{{ url_for('static', filename='css/default.css') }}" rel="stylesheet">
+    <link href="css/default.css" rel="stylesheet">
 
-    <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -27,12 +25,15 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <script src="{{ url_for('static', filename='vendor/angular/angular.js') }}"></script>
-    <script src="{{ url_for('static', filename='vendor/angular-encode-uri/dist/angular-encode-uri.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/controllers.js') }}"></script>
+    <script src="vendor/angular/angular.js"></script>
+    <script src="vendor/angular-encode-uri/dist/angular-encode-uri.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/directives.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/services.js"></script>
   </head>
 
-  <body ng-app="whyApp">
+  <body ng-app="igor">
 		<div class="container" ng-controller="MainController">
 			<div class="row header-box">
 				<div class="col-xs-10">

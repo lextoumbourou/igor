@@ -2,7 +2,7 @@
 
 /* Directives */
 
-angular.module('whyApp.directives', []).
+angular.module('igor.directives', []).
   directive('ngEnter', function() {
       return function(scope, element, attrs) {
           element.bind('keydown keypress', function(event) {
