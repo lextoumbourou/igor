@@ -1,8 +1,8 @@
 describe('igor controllers', function() {
 
-  describe('MainController', function() {
+  describe('igor MainController', function() {
 
-      beforeEach(module('whyApp'));
+      beforeEach(module('igor'));
 
       it('should have the correct initial title', inject(function($controller) {
           var scope = {},
