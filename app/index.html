@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+
+    <title>Confuse the Computer</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='vendor/bootstrap/dist/css/bootstrap-theme.css') }}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="jumbotron-narrow.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/default.css') }}" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="{{ url_for('static', filename='vendor/angular/angular.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/angular-encode-uri/dist/angular-encode-uri.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/controllers.js') }}"></script>
+  </head>
+
+  <body ng-app="whyApp">
+		<div class="container" ng-controller="MainController">
+			<div class="row header-box">
+				<div class="col-xs-10">
+					<textarea ng-model="title" id="action" ng-enter="getMeaningOfTitle()"></textarea>
+				</div>
+				<div class="col-xs-2">
+					<button class="btn btn-lg btn-success" role="button" ng-mousedown="startListening()" ng-mouseup="stopListening()">
+						<i class="fa fa-microphone"></i>
+					</button>
+				</div>
+			</div>
+
+			<div class="">
+				<p class="lead" ng-bind="subtitle">{{ 'Tell me what you want.' }}</p>
+			</div>
+
+			<div class="row marketing">
+				<div class="col-lg-12">
+					<div ng-repeat="item in body">
+						<h4><span ng-repeat="artist in item.artist">{{ artist }} - </span>{{ item.label }}</h4>
+						<p ng-if="item.thumbnail">
+							<img width="200" height="200" src="http://10.0.0.69:8080/image/{{ item.thumbnail | encodeUri }}"></img>
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="footer">
+				<p>&copy; Company 2014</p>
+			</div>
+
+		</div> <!-- /container -->
+  </body>
+</html>

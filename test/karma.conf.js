@@ -15,10 +15,10 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'static/vendor/angular/angular.js',
-      'static/vendor/angular-mocks/angular-mocks.js',
-      'static/vendor/angular-encode-uri/dist/angular-encode-uri.js',
-      'static/js/*.js',
+      'app/vendor/angular/angular.js',
+      'app/vendor/angular-mocks/angular-mocks.js',
+      'app/vendor/angular-encode-uri/dist/angular-encode-uri.js',
+      'app/js/*.js',
       'test/js/**/*Spec.js'
     ],
 

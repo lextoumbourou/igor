@@ -1,19 +1,5 @@
 var whyApp = angular.module('whyApp', ['rt.encodeuri']);
 
-whyApp.directive('ngEnter', function() {
-    return function(scope, element, attrs) {
-        element.bind('keydown keypress', function(event) {
-            if (event.which === 13) {
-                scope.$apply(function() {
-                    scope.$eval(attrs.ngEnter, {'event': event});
-                });
-
-                event.preventDefault();
-            }
-        });
-    };
-});
-
 whyApp.controller('MainController', function ($scope, $http) {
     $scope.title = 'Why Not?';
     $scope.body = false;
