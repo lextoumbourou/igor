@@ -2,18 +2,18 @@
 
 angular.module('igor.services', ['igor.xbmc.services'])
   .factory('witService', function($http) {
-    var witUrl = 'https://api.wit.ai';
+    var witUrl = 'http://10.0.0.5:5000';
 
     var getQuery = function(query, path) {
       return $http({
         method: 'GET',
-        url: witUrl + '/' + path + '?q=' + q
+        url: witUrl + '/' + path + '?q=' + query
       });
     }
 
     return {
-      getMessage: function(q) {
-        return getQuery(q, 'message');
+      getMessage: function(query) {
+        return getQuery(query, 'message');
       }
     };
   })
