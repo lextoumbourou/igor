@@ -3,3 +3,4 @@ node_modules/*
 private.py
 *.pyc
 app/vendor
+.coverage
