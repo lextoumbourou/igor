@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('igor.controllers', ['igor.services'])
+angular.module('igor.controllers', ['igor.services', 'igor.xbmc.services'])
 .controller('MainController', [
     '$scope',
     '$http',
@@ -19,6 +19,11 @@ angular.module('igor.controllers', ['igor.services'])
       $scope.interimResults = '';
       $scope.interimTranscript = ''
       $scope.finalTranscript = '';
+
+      $scope.updateAndPlay = function(msg) {
+        $scope.subtitle = msg;
+        speech.say(msg);
+      }
 
       $scope.isNewCommand = function() {
         var tmpTime = new Date().getTime();
@@ -61,7 +66,7 @@ angular.module('igor.controllers', ['igor.services'])
           $scope.body = data['body'];
         }
 
-        speech.say(data['message'])
+        $scope.updateAndPlay(data['message'])
       }
 
       $scope.clearLastCommand = function() {
@@ -75,8 +80,12 @@ angular.module('igor.controllers', ['igor.services'])
         witService.getMessage($scope.title).
           success(function(data, status) {
             var intent = data['outcome']['intent'];
+            console.log(data);
             if (intent in xbmcRouter) {
-              xbmcRouter[intent].run(data);
+              var router = xbmcRouter[intent]()
+              router.run(data, function(result) {
+                $scope.handleResults(result);
+              });
             }
             else {
               $scope.updateAndPlay('Not really sure what you mean?');

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('igor.services', ['igor.xbmc.services'])
+angular.module('igor.services', [])
   .factory('witService', function($http) {
     var witUrl = 'http://10.0.0.5:5000';
 
@@ -17,19 +17,6 @@ angular.module('igor.services', ['igor.xbmc.services'])
       }
     };
   })
-  .factory('xbmcRouter', [
-    'xbmcPlayAudioHandler',
-    'xbmcListAudioHandler',
-    'xbmcWatchVideoHandler',
-    function(xbmcPlayAudioHandler, xbmcListAudioHandler, xbmcWatchVideoHandler) {
-      return {
-        play_audio: xbmcPlayAudioHandler,
-        list_audio: xbmcListAudioHandler,
-        watch_video: xbmcWatchVideoHandler
-      };
-  }])
-  .factory('speech', ['$window', 'SpeechSynthesisUtterance', function($window, SpeechSynthesisUtterance) {
-    var msg = new SpeechSynthesisUtterance();
   .factory('utterance', function() {
     return new SpeechSynthesisUtterance();
   })
@@ -40,18 +27,6 @@ angular.module('igor.services', ['igor.xbmc.services'])
       say: function(text) {
         msg.text = text;
         return $window.speechSynthesis.speak(msg);
-      } 
+      }
     }
   }])
-  .factory('xbmcService', function() {
-    var sock = new SockJS('wss://10.0.0.5:8080/jsonrpc');
-    sock.onopen = function() {
-      console.log('open');
-    };
-    sock.onmessage = function(e) {
-      console.log('message', e.data);
-    }
-    sock.onclose = function() {
-      console.log('close');
-    };
-  });
