@@ -30,6 +30,11 @@ angular.module('igor.services', ['igor.xbmc.services'])
   }])
   .factory('speech', ['$window', 'SpeechSynthesisUtterance', function($window, SpeechSynthesisUtterance) {
     var msg = new SpeechSynthesisUtterance();
+  .factory('utterance', function() {
+    return new SpeechSynthesisUtterance();
+  })
+  .factory('speech', ['$window', 'utterance', function($window, utterance) {
+    var msg = utterance;
 
     return {
       say: function(text) {

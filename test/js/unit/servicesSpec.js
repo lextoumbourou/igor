@@ -10,11 +10,11 @@ describe('igor services', function() {
 
     beforeEach(function() {
       $window = {speechSynthesis: { speak: jasmine.createSpy()} };
-      var SpeechSynthesisUtterance = function() { return {}; };
+      var utterance = {};
 
       module(function($provide) {
         $provide.value('$window', $window);
-        $provide.value('SpeechSynthesisUtterance', SpeechSynthesisUtterance);
+        $provide.value('utterance', utterance);
       });
 
       inject(function($injector) {
