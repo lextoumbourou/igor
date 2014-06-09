@@ -2,52 +2,29 @@
 
 describe('igor services', function() {
 
-  describe('igor witService', function() {
-    var httpBasedService,
-        httpBackend;
+  describe('igor speech', function() {
+    var $window, speech;
+
+    // run before it() function
+    beforeEach(module('igor'));
 
     beforeEach(function() {
-      module('igor');
+      $window = {speechSynthesis: { speak: jasmine.createSpy()} };
+      var SpeechSynthesisUtterance = function() { return {}; };
 
-      inject(function($httpBackend, _witService_) {
-        witService = _witService_;
-        httpBackend = $httpBackend;
+      module(function($provide) {
+        $provide.value('$window', $window);
+        $provide.value('SpeechSynthesisUtterance', SpeechSynthesisUtterance);
+      });
+
+      inject(function($injector) {
+        speech = $injector.get('speech');
       });
     });
 
-    afterEach(function() {
-      httpBackend.verifyNoOutstandingExpectation();
-      httpBackend.verifyNoOutstandingRequest();
+    it('class speechSynthesis with correct text', function() {
+      speech.say('Hello');
+      expect($window.speechSynthesis.speak).toHaveBeenCalledWith({text: 'Hello'});
     });
-
-    it('should return appropriate JSON data when called', function() {
-      var returnData = {
-        'outcome': {
-          'entities': {
-            'artist': {'body': 'ZHU', 'suggested': true, 'value': 'ZHU'},
-            'selection': {'body': 'random', 'value': 'random'},
-            'when': {'value': 'now'}
-          },
-          'intent': 'play_audio'
-        }
-      };
-
-      var url = 'https://api.wit.ai/message?q=hello';
-
-      httpBackend.expectGET(url).respond(returnData);
-
-      var returnedPromise = witService.getMessage('hello');
-      
-      var result;
-      returnedPromise.then(function(response) {
-        result = response;
-      });
-
-      httpBackend.flush();
-
-      expect(result).toEqual(returnData);
-    });
-
   });
-
 });

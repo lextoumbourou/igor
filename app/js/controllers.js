@@ -6,18 +6,13 @@ angular.module('igor.controllers', ['igor.services'])
     '$http',
     'witService',
     'xbmcRouter',
-    function ($scope, $http, witService, xbmcRouter) {
+    'speech',
+    function ($scope, $http, witService, xbmcRouter, speech) {
 
       $scope.title = 'Why Not?';
       $scope.body = false;
       $scope.subtitle = 'Tell me what you want';
       $scope.potential = 'Test';
-      $scope.updateAndPlay = function(text) {
-        var msg = new SpeechSynthesisUtterance();
-        $scope.subtitle = text;
-        msg.text = text;
-        window.speechSynthesis.speak(msg);
-      };
 
       $scope.lastRecognition = 0;
       $scope.timeBetweenCommands = 3000;
@@ -65,7 +60,8 @@ angular.module('igor.controllers', ['igor.services'])
         if ('body' in data && data['body']) {
           $scope.body = data['body'];
         }
-        $scope.updateAndPlay(data['message']);
+
+        speech.say(data['message'])
       }
 
       $scope.clearLastCommand = function() {
