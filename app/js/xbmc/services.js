@@ -2,9 +2,7 @@
 
 angular.module('igor.xbmc.services', [])
   .factory('xbmcSocket', function() {
-    var Service = {}
-    var callbacks = [];
-    var currentCallbackId = 0;
+    var callbacks = {};
     var ws = new WebSocket('ws://10.0.0.9:9090/jsonrpc');
 
     ws.onopen = function(){  
