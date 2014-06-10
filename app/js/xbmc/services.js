@@ -20,7 +20,6 @@ angular.module('igor.xbmc.services', [])
         time: new Date(),
         cb: handler
       };
-      console.log('sending request', request);
       ws.send(JSON.stringify(request));
     }
 
@@ -28,7 +27,6 @@ angular.module('igor.xbmc.services', [])
        var messageObj = data;
        console.log('Received data from websocket: ', messageObj);
        if (callbacks.hasOwnProperty(messageObj.id)) {
-         console.log(callbacks[messageObj.id]);
          callbacks[messageObj.id].cb(messageObj);
          delete callbacks[messageObj.id];
        }
@@ -48,8 +46,8 @@ angular.module('igor.xbmc.services', [])
   })
   .factory('xbmcRouter', ['xbmcSocket', function(xbmcSocket) {
     var xbmcSocket = xbmcSocket;
-
-    var router = {
+    
+    return {
       /*
        * xbmcPlayAudioHandler
        *
@@ -60,21 +58,16 @@ angular.module('igor.xbmc.services', [])
        *
        *   xbmcSocket - object
        */
-      xbmcPlayAudioHandler: function() {
-        var output = {}
+      xbmcPlayAudioHandler: function(outcome, handler) {
+        var handler = handler;
+        xbmcSocket.run('AudioLibrary.GetSongs', function(data) {
 
-        output.run = function(outcome, handler) {
-          var handler = handler;
-          xbmcSocket.run('AudioLibrary.GetSongs', function(data) {
-            console.log();
-            return handler({
-              body: data.result.songs,
-              message: "Okay, i'll play audio"
-            });
+          return handler({
+            body: data.result.songs,
+            message: "Okay, i'll play audio"
           });
-        };
+        });
 
-        return output;
       },
 
       /*
@@ -87,20 +80,16 @@ angular.module('igor.xbmc.services', [])
        *
        *   xbmcSocket - object
        */
-      xbmcListAudioHandler: function() {
-        var output = {};
+      xbmcListAudioHandler: function(outcome, handler) {
+        var handler = handler;
 
-        output.run = function(outcome, handler) {
-          var handler = handler;
-          xbmcSocket.run('AudioLibrary.GetSongs', function(data) {
-            return handler({
-              body: data.result.songs,
-              message: 'List audio message'
-            });
+        xbmcSocket.run('AudioLibrary.GetSongs', function(data) {
+
+          return handler({
+            body: data.result.songs,
+            message: 'List audio message'
           });
-        };
-
-        return output;
+        });
       },
 
       /*
@@ -113,22 +102,17 @@ angular.module('igor.xbmc.services', [])
        *
        *   xbmcSocket - object
        */
-      xbmcWatchVideoHandler: function() {
-        var output = {};
+      xbmcWatchVideoHandler: function(outcome, handler) {
+        var handler = handler;
 
-        output.run = function(outcome, handler) {
-          var handler = handler;
-          xbmcSocket.run('VideoLibrary.GetMovies', function(data) {
-            return handler({
-              body: data.result.movies,
-              message: "Okay, i'll watch video"
-            });
+        xbmcSocket.run('VideoLibrary.GetMovies', function(data) {
+
+          return handler({
+            body: data.result.movies,
+            message: "Okay, i'll watch video"
           });
-        };
-
-        return output;
+        });
       },
     };
 
-    return router;
   }]);

@@ -82,8 +82,7 @@ angular.module('igor.controllers', ['igor.services', 'igor.xbmc.services'])
             var intent = data['outcome']['intent'];
             console.log(data);
             if (intent in xbmcRouter) {
-              var router = xbmcRouter[intent]()
-              router.run(data, function(result) {
+              xbmcRouter[intent](data, function(result) {
                 $scope.handleResults(result);
               });
             }
