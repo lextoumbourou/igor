@@ -77,7 +77,31 @@ angular.module('igor.xbmc.services', [])
       findClosestMatch: _findClosestMatch
     };
   })
-  .factory('xbmcRouter', ['xbmcSocket', 'xbmcHelpers', function(xbmcSocket, xbmcHelpers) {
+  .factory('messages', function() {
+    return {
+      songNotFound: function() {
+        return "Sound couldn't be found";
+      },
+      exactSong: function(trackFilter, song) {
+        var output = "Found song " + song;
+        if ('artist' in trackFilter) {
+          output = output + " by " + trackFilter.artist;
+        };
+
+        return output;
+      },
+      listSongs: function(trackFilter) {
+        var output = "Here are a selection of possible songs"
+        if ('artist' in trackFilter) {
+          output = output + " by " + trackFilter.artist;
+        };
+
+        return output;
+      }
+    };
+  })
+  .factory(
+    'xbmcRouter', ['xbmcSocket', 'xbmcHelpers', 'messages', function(xbmcSocket, xbmcHelpers, messages) {
     
     return {
       /*
@@ -88,15 +112,52 @@ angular.module('igor.xbmc.services', [])
        */
       xbmcPlayAudioHandler: function(outcome, handler) {
         var handler = handler;
+        var trackFilter = {};
 
-        xbmcSocket.run('AudioLibrary.GetSongs', function(data) {
+        var entities = outcome.entities;
+        if ('artist' in entities && entities.artist.value {
+          trackFilter.artist = entities.artist.value;
+        };
 
-          return handler({
-            body: data.result.songs,
-            message: "Okay, i'll play audio"
-          });
-        });
+        if ('selection' in outcome.entities) {
+          xbmcSocket.run('AudioLibrary.GetSongs', {'filter': trackFilter},
+            function(songData) {
+              var song = null;
 
+              if (outcome.entities.selection.body === 'exact' || 'song' in outcome.entities.selection) {
+
+                song = xbmcHelpers.findClosestMatch(
+                  entities.song.value, songData.entities.result,
+                  maxDistance);
+
+             } else if (outcome.entities.select.body === 'random') {
+
+               song = xbmcHelpers.findRandomItem(songData);
+
+             }
+
+             if (!song) {
+               return handler({
+                 message: messages.songNotFound(),
+                 body: null
+               });
+             }
+
+              // Todo: deal with failures!
+              xbmcSocket.run('Playlist.Clear');
+              xbmcSocket.run('Playlist.Add', {'songid': song.id});
+              xbmcSocket.run('Playlist.GetItems', {'playlistid': 0});
+
+              return handler({
+                message: messages.exactSong(trackFilter, song)
+              });
+            }
+          );
+        };
+
+        // Nothing was found let's attempt to list some data
+        // so the user sees something
+        return xbmcListAudioHandler(outcome, handler, trackFilter);
       },
 
       /*
@@ -105,15 +166,18 @@ angular.module('igor.xbmc.services', [])
        * Handles any thing that should result in a
        * more information being returned about audio
        */
-      xbmcListAudioHandler: function(outcome, handler) {
-        var handler = handler;
+      xbmcListAudioHandler: function(outcome, handler, trackFilter) {
+        if (!trackFilter) {
+          var trackFilter = {};
+        }
 
-        xbmcSocket.run('AudioLibrary.GetSongs', function(data) {
+        var potentialSongs = [
+            {'label': 'Song 1'}, {'label': 'Song 2'},
+        ];
 
-          return handler({
-            body: data.result.songs,
-            message: 'List audio message'
-          });
+        return handler({
+          body: potentialSongs,
+          message: messages.listSongs(trackFilter),
         });
       },
 

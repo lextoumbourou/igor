@@ -79,10 +79,10 @@ angular.module('igor.controllers', ['igor.services', 'igor.xbmc.services'])
       $scope.getMeaningOfTitle = function() {
         witService.getMessage($scope.title).
           success(function(data, status) {
-            var intent = data['outcome']['intent'];
-            console.log(data);
+
+            var intent = data.outcome.intent;
             if (intent in xbmcRouter) {
-              xbmcRouter[intent](data, function(result) {
+              xbmcRouter[intent](data.outcome, function(result) {
                 $scope.handleResults(result);
               });
             }
