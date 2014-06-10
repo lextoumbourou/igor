@@ -12,54 +12,57 @@ angular.module('igor.xbmc.services', [])
     };
         
     ws.onmessage = function(message) {
-      listener(JSON.parse(message.data));
+      handleMessage(JSON.parse(message.data));
     };
 
+    /*
+     * sendRequest
+     *
+     * Send data to the server and assign a call back
+     * to our object for handling when the server responsed
+     */
     var sendRequest = function(request, handler) {
-      callbacks[request.id] = {
-        time: new Date(),
-        cb: handler
-      };
+      callbacks[request.id] = handler;
       ws.send(JSON.stringify(request));
-    }
+    };
 
-     var listener = function(data) {
-       var messageObj = data;
-       console.log('Received data from websocket: ', messageObj);
-       if (callbacks.hasOwnProperty(messageObj.id)) {
-         callbacks[messageObj.id].cb(messageObj);
-         delete callbacks[messageObj.id];
-       }
-     }
+    /*
+     * handleMessage
+     *
+     * When we receive a message from the server, we check
+     * its id to see if a call back has been set for it. If so,
+     * we run it!
+     */
+    var handleMessage = function(message) {
+      if (callbacks.hasOwnProperty(message.id)) {
+        callbacks[message.id](message);
+        delete callbacks[message.id];
+      };
+    };
 
-     Service.run = function(method, handler) {
-       var request = {
-         'jsonrpc': '2.0',
-         'method': method,
-         'id': method,
-       };
+    return {
+      run: function(method, handler) {
+         var request = {
+           'jsonrpc': '2.0',
+           'method': method,
+           'id': method,
+         };
 
-       return sendRequest(request, handler);
-     }
-
-     return Service;
+         return sendRequest(request, handler);
+      }
+    };
   })
   .factory('xbmcRouter', ['xbmcSocket', function(xbmcSocket) {
-    var xbmcSocket = xbmcSocket;
-    
     return {
       /*
        * xbmcPlayAudioHandler
        *
        * Handles any thing that should result in a
        * track being played.
-       *
-       * Arguments:
-       *
-       *   xbmcSocket - object
        */
       xbmcPlayAudioHandler: function(outcome, handler) {
         var handler = handler;
+
         xbmcSocket.run('AudioLibrary.GetSongs', function(data) {
 
           return handler({
@@ -75,10 +78,6 @@ angular.module('igor.xbmc.services', [])
        *
        * Handles any thing that should result in a
        * more information being returned about audio
-       *
-       * Arguments:
-       *
-       *   xbmcSocket - object
        */
       xbmcListAudioHandler: function(outcome, handler) {
         var handler = handler;
@@ -97,10 +96,6 @@ angular.module('igor.xbmc.services', [])
        *
        * Handles any thing that should result in a
        * a video being displayed
-       *
-       * Arguments:
-       *
-       *   xbmcSocket - object
        */
       xbmcWatchVideoHandler: function(outcome, handler) {
         var handler = handler;
