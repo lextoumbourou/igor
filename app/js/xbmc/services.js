@@ -50,7 +50,35 @@ angular.module('igor.xbmc.services', [])
       }
     };
   })
-  .factory('xbmcRouter', ['xbmcSocket', function(xbmcSocket) {
+  .factory('xbmcHelpers', function() {
+    // For Levenshtein Distance string matching
+    var maxDistance = 3;
+
+    var _findClosestMatch = function(itemToFind, itemsToSearch) {
+      var lowest = Infinity;
+      var lowestMatch = null;
+
+      for (var i = 0; i < itemsToSearch.length; i++) {
+
+        var item = itemsToSearch[i];
+        var l = new Levenshtein(itemToFind, item.label);
+
+        if (l.distance <= lowest && l.distance <= maxDistance) {
+          lowest = l.distance;
+          lowestMatch = item;
+        };
+
+      };
+
+      return lowestMatch;
+    };
+
+    return {
+      findClosestMatch: _findClosestMatch
+    };
+  })
+  .factory('xbmcRouter', ['xbmcSocket', 'xbmcHelpers', function(xbmcSocket, xbmcHelpers) {
+    
     return {
       /*
        * xbmcPlayAudioHandler

@@ -15,11 +15,12 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'app/vendor/levenshtein/lib/levenshtein.js',
       'app/vendor/angular/angular.js',
       'app/vendor/angular-mocks/angular-mocks.js',
       'app/vendor/angular-encode-uri/dist/angular-encode-uri.js',
       'app/js/*.js',
-      'app/js/**/*.js',
+      'app/js/xbmc/*.js',
       'test/js/**/*Spec.js'
     ],
 
