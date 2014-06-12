@@ -3,7 +3,7 @@
 angular.module('igor.xbmc.services', [])
   .factory('xbmcSocket', function() {
     var callbacks = {};
-    var ws = new WebSocket('ws://10.0.0.9:9090/jsonrpc');
+    var ws = new WebSocket('ws://10.0.0.16:9090/jsonrpc');
 
     ws.onopen = function(){  
       console.log("Socket has been opened!");  
@@ -32,21 +32,26 @@ angular.module('igor.xbmc.services', [])
      * we run it!
      */
     var handleMessage = function(message) {
-      if (callbacks.hasOwnProperty(message.id)) {
+      if (message.id in callbacks && callbacks[message.id]) {
         callbacks[message.id](message);
         delete callbacks[message.id];
       };
     };
 
     return {
-      run: function(method, handler) {
-         var request = {
-           'jsonrpc': '2.0',
-           'method': method,
-           'id': method,
-         };
+      run: function(method, params, handler) {
+        if (!params) {
+          params = {};
+        }
 
-         return sendRequest(request, handler);
+        var request = {
+          'jsonrpc': '2.0',
+          'method': method,
+          'id': method,
+          'params': params,
+        };
+
+        return sendRequest(request, handler);
       }
     };
   })
@@ -107,7 +112,7 @@ angular.module('igor.xbmc.services', [])
   })
   .factory(
     'xbmcRouter', ['xbmcSocket', 'xbmcHelpers', 'messages', function(xbmcSocket, xbmcHelpers, messages) {
-    
+
     return {
       /*
        * xbmcPlayAudioHandler
@@ -116,29 +121,29 @@ angular.module('igor.xbmc.services', [])
        * track being played.
        */
       xbmcPlayAudioHandler: function(outcome, handler) {
+        var playListId = 0;
         var handler = handler;
         var trackFilter = {};
 
         var entities = outcome.entities;
-        if ('artist' in entities && entities.artist.value {
+        if ('artist' in entities && entities.artist.value) {
           trackFilter.artist = entities.artist.value;
         };
 
-        if ('selection' in outcome.entities) {
+        if ('selection' in entities && entities.selection.value) {
           xbmcSocket.run('AudioLibrary.GetSongs', {'filter': trackFilter},
-            function(songData) {
+            function(returnedData) {
               var song = null;
 
               if (outcome.entities.selection.body === 'exact' || 'song' in outcome.entities.selection) {
 
                 song = xbmcHelpers.findClosestMatch(
-                  entities.song.value, songData.entities.result,
+                  entities.song.value, returnedData.result.songs,
                   maxDistance);
 
-             } else if (outcome.entities.select.body === 'random') {
+             } else if (entities.selection.body === 'random') {
 
-               song = xbmcHelpers.findRandomItem(songData);
-
+               song = xbmcHelpers.findRandomItem(returnedData.result.songs);
              }
 
              if (!song) {
@@ -150,19 +155,22 @@ angular.module('igor.xbmc.services', [])
 
               // Todo: deal with failures!
               xbmcSocket.run('Playlist.Clear');
-              xbmcSocket.run('Playlist.Add', {'songid': song.id});
-              xbmcSocket.run('Playlist.GetItems', {'playlistid': 0});
+              xbmcSocket.run('Playlist.Add',
+                {item: {'songid': song.songid}, 'playlistid': playListId});
+
+              xbmcSocket.run('Playlist.GetItems', {'playlistid': playListId}, function(playListData) {
+                var position = playListData.result.items.length - 1;
+                xbmcSocket.run('Player.Open',
+                   {'item': {'playlistid': playListId, 'position': position}}
+                );
+              });
 
               return handler({
-                message: messages.exactSong(trackFilter, song)
+                message: messages.exactSong(trackFilter, song.label)
               });
             }
           );
         };
-
-        // Nothing was found let's attempt to list some data
-        // so the user sees something
-        return xbmcListAudioHandler(outcome, handler, trackFilter);
       },
 
       /*
