@@ -21,7 +21,10 @@ angular.module('igor.controllers', ['igor.services', 'igor.xbmc.services'])
       $scope.finalTranscript = '';
 
       $scope.updateAndPlay = function(msg) {
-        $scope.subtitle = msg;
+        $scope.$apply(function() {
+          $scope.subtitle = msg;
+        });
+
         speech.say(msg);
       }
 
@@ -62,11 +65,7 @@ angular.module('igor.controllers', ['igor.services', 'igor.xbmc.services'])
       };
 
       $scope.handleResults = function(data) {
-        if ('body' in data && data['body']) {
-          $scope.body = data['body'];
-        }
-
-        $scope.updateAndPlay(data['message'])
+        
       }
 
       $scope.clearLastCommand = function() {
@@ -83,7 +82,10 @@ angular.module('igor.controllers', ['igor.services', 'igor.xbmc.services'])
             var intent = data.outcome.intent;
             if (intent in xbmcRouter) {
               xbmcRouter[intent](data.outcome, function(result) {
-                $scope.handleResults(result);
+                if ('body' in result && result.body) {
+                  $scope.body = result.body;
+                }
+                $scope.updateAndPlay(result.message)
               });
             }
             else {
