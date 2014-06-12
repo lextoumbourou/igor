@@ -73,8 +73,13 @@ angular.module('igor.xbmc.services', [])
       return lowestMatch;
     };
 
+    var _findRandomItem = function(items, random) {
+      return items[Math.floor(Math.random() * items.length)];
+    };
+
     return {
-      findClosestMatch: _findClosestMatch
+      findClosestMatch: _findClosestMatch,
+      findRandomItem: _findRandomItem,
     };
   })
   .factory('messages', function() {

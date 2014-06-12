@@ -54,6 +54,13 @@ describe('igor services', function() {
       expect(xbmcHelpers.findClosestMatch('james blake', artists, 3))
         .toEqual(artistData.result.artists[0]);
     });
+
+    it('should return a random item from an array', function() {
+      spyOn(Math, 'random').andReturn(0.34);
+
+      var items = ['first', 'second', 'third'];
+      expect(xbmcHelpers.findRandomItem(items)).toEqual('second');
+    });
   });
 
 });
