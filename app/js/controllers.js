@@ -5,7 +5,7 @@ angular.module('igor.controllers', ['igor.services', 'xbmc.services'])
     '$scope',
     '$http',
     'witService',
-    'xbmcRouter',
+    'router',
     'speech',
     function ($scope, $http, witService, xbmcRouter, speech) {
 

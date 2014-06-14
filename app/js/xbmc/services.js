@@ -3,7 +3,7 @@
 angular.module('xbmc.services', [])
   .factory('socket', function() {
     var callbacks = {};
-    var ws = new WebSocket('ws://10.0.0.16:9090/jsonrpc');
+    var ws = new WebSocket('ws://10.0.0.19:9090/jsonrpc');
 
     ws.onopen = function(){  
       console.log("Socket has been opened!");  
@@ -75,6 +75,12 @@ angular.module('xbmc.services', [])
         };
 
         return output;
+      },
+      videoNotFound: function() {
+        return "Couldn't find anything to watch";
+      },
+      exactVideo: function(video) {
+        return "Okay. Let's watch " + video.label + '.';
       }
     };
   });
