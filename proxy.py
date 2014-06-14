@@ -1,10 +1,8 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify
 from flask_cors import cross_origin
 
 from wit import Wit
-from xbmcjson import XBMC
 
-from lib.XBMCRouter import XBMCRouter
 import private
 
 app = Flask(__name__)
