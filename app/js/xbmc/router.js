@@ -76,14 +76,22 @@ app.factory(
         var trackFilter = {};
       }
 
-      var potentialSongs = [
-          {'label': 'Song 1'}, {'label': 'Song 2'},
-      ];
+      var entities = outcome.entities;
+      if ('artist' in entities && entities.artist.value) {
+        trackFilter.artist = entities.artist.value;
+      };
 
-      return handler({
-        body: potentialSongs,
-        message: messages.listSongs(trackFilter),
-      });
+      xbmcSocket.run('AudioLibrary.GetSongs',
+        {'filter': trackFilter, 'properties': ['title', 'artist', 'genre', 'thumbnail']},
+        function(returnedData) {
+          var song = null;
+
+          return handler({
+            body: returnedData.result.songs,
+            message: messages.listSongs(trackFilter)
+          });
+        }
+      );
     },
 
     /*

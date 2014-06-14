@@ -10,7 +10,7 @@ angular.module('igor.controllers', ['igor.services', 'xbmc.services'])
     function ($scope, $http, witService, xbmcRouter, speech) {
 
       $scope.title = 'Why Not?';
-      $scope.body = false;
+      $scope.body = null;
       $scope.subtitle = 'Tell me what you want';
       $scope.potential = 'Test';
 

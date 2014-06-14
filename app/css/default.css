@@ -12,3 +12,31 @@ textarea#action:focus {
 .header-box {
     background-color: #eee;
 }
+
+.body-row {
+    display: flex;
+    flex-direction: row;
+    min-height: 300px;
+    max-height: 450px;
+    align-items: flex-start;
+    flex-flow: row wrap;
+}
+
+.body-row div {
+    text-align: left;
+    margin: 10px;
+    width: 250px;
+}
+
+.item-title {
+    margin: 0;
+    font-size: 15px;
+    display: none;
+    
+}
+
+.item-label {
+    padding:;
+    font-size: 16px;
+    font-weight: 'bold'
+}

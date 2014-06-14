@@ -22,6 +22,7 @@ module.exports = function(config) {
       'app/js/*.js',
       'app/js/xbmc/services.js',
       'app/js/xbmc/helpers.js',
+      'app/js/xbmc/messages.js',
       'app/js/xbmc/router.js',
       'test/js/**/*Spec.js'
     ],
