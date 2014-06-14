@@ -21,10 +21,7 @@ angular.module('igor.controllers', ['igor.services', 'xbmc.services'])
       $scope.finalTranscript = '';
 
       $scope.updateAndPlay = function(msg) {
-        $scope.$apply(function() {
-          $scope.subtitle = msg;
-        });
-
+        $scope.subtitle = msg;
         speech.say(msg);
       }
 

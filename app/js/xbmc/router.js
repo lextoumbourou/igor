@@ -23,8 +23,8 @@ app.factory(
       };
 
       if ('selection' in entities && entities.selection.value) {
-        xbmcSocket.run('AudioLibrary.GetSongs', {'filter': trackFilter},
-          function(returnedData) {
+        xbmcSocket.run('AudioLibrary.GetSongs', {'filter': trackFilter})
+          .then(function(returnedData) {
             var song = null;
 
             if (outcome.entities.selection.body === 'exact' || 'song' in outcome.entities.selection) {
@@ -47,21 +47,21 @@ app.factory(
 
             // Todo: deal with failures!
             xbmcSocket.run('Playlist.Clear');
-            xbmcSocket.run('Playlist.Add',
-              {item: {'songid': song.songid}, 'playlistid': playListId});
+            xbmcSocket.run(
+              'Playlist.Add', {item: {'songid': song.songid}, 'playlistid': playListId});
 
-            xbmcSocket.run('Playlist.GetItems', {'playlistid': playListId}, function(playListData) {
-              var position = playListData.result.items.length - 1;
-              xbmcSocket.run('Player.Open',
-                 {'item': {'playlistid': playListId, 'position': position}}
-              );
-            });
+            xbmcSocket.run('Playlist.GetItems', {'playlistid': playListId})
+              .then(function(playListData) {
+                var position = playListData.result.items.length - 1;
+                xbmcSocket.run('Player.Open',
+                   {'item': {'playlistid': playListId, 'position': position}}
+                );
+              });
 
             return handler({
               message: messages.exactSong(trackFilter, song.label)
             });
-          }
-        );
+          });
       };
     },
 
@@ -81,17 +81,19 @@ app.factory(
         trackFilter.artist = entities.artist.value;
       };
 
-      xbmcSocket.run('AudioLibrary.GetSongs',
-        {'filter': trackFilter, 'properties': ['title', 'artist', 'genre', 'thumbnail']},
-        function(returnedData) {
+      var params = {
+        'filter': trackFilter,
+        'properties': ['title', 'artist', 'genre', 'thumbnail']};
+
+      xbmcSocket.run('AudioLibrary.GetSongs', params)
+        .then(function(returnedData) {
           var song = null;
 
           return handler({
             body: returnedData.result.songs,
             message: messages.listSongs(trackFilter)
           });
-        }
-      );
+        });
     },
 
     /*
@@ -131,8 +133,8 @@ app.factory(
        videoFilter['genre'] =  entities.genre.value;
      };
 
-     xbmcSocket.run(callToMake, {'filter': videoFilter},
-       function(returnedData) {
+     xbmcSocket.run(callToMake, {'filter': videoFilter})
+       .then(function(returnedData) {
          var videoTypePlural = videoType + 's';
          var video = null;
 
@@ -154,12 +156,13 @@ app.factory(
           xbmcSocket.run('Playlist.Clear');
           xbmcSocket.run('Playlist.Add', params);
 
-          xbmcSocket.run('Playlist.GetItems', {'playlistid': playListId}, function(playListData) {
-            var position = playListData.result.items.length - 1;
-            xbmcSocket.run('Player.Open',
-               {'item': {'playlistid': playListId, 'position': position}}
-            );
-          });
+          xbmcSocket.run('Playlist.GetItems', {'playlistid': playListId})
+            .then(function(playListData) {
+              var position = playListData.result.items.length - 1;
+              xbmcSocket.run('Player.Open',
+                 {'item': {'playlistid': playListId, 'position': position}}
+              );
+            });
 
           return handler({
             message: messages.exactVideo(video)

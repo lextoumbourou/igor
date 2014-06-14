@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('xbmc.services', [])
-  .factory('socket', function() {
+  .factory('socket', ['$q', function($q) {
     var callbacks = {};
     var ws = new WebSocket('ws://10.0.0.19:9090/jsonrpc');
 
@@ -19,9 +19,11 @@ angular.module('xbmc.services', [])
      * Send data to the server and assign a call back
      * to our object for handling when the server responsed
      */
-    var sendRequest = function(request, handler) {
-      callbacks[request.id] = handler;
+    var sendRequest = function(request) {
+      var defer = $q.defer();
+      callbacks[request.id] = defer;
       ws.send(JSON.stringify(request));
+      return defer.promise;
     };
 
     /*
@@ -33,13 +35,13 @@ angular.module('xbmc.services', [])
      */
     var handleMessage = function(message) {
       if (message.id in callbacks && callbacks[message.id]) {
-        callbacks[message.id](message);
+        callbacks[message.id].resolve(message);
         delete callbacks[message.id];
       };
     };
 
     return {
-      run: function(method, params, handler) {
+      run: function(method, params) {
         if (!params) {
           params = {};
         }
@@ -51,7 +53,8 @@ angular.module('xbmc.services', [])
           'params': params,
         };
 
-        return sendRequest(request, handler);
+        // Returns a promise
+        return sendRequest(request);
       }
     };
-  })
+  }]);
