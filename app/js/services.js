@@ -2,14 +2,18 @@
 
 angular.module('igor.services', [])
   .factory('witService', function($http) {
-    var witUrl = 'http://10.0.0.5:5000';
+    var witUrl = 'http://api.wit.ai';
+    var versionId = '20140401';
+    var accessToken = config.accessToken;
 
     var getQuery = function(query, path) {
-      return $http({
-        method: 'GET',
-        url: witUrl + '/' + path + '?q=' + query
-      });
-    }
+      var url = [
+        witUrl, '/', path , '?q=', query,
+       '&v=', versionId, '&access_token=', accessToken, '&callback=JSON_CALLBACK'
+      ].join('');
+
+      return $http.jsonp(url);
+    };
 
     return {
       getMessage: function(query) {
