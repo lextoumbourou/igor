@@ -29,5 +29,8 @@ app.factory('messages', function() {
     exactVideo: function(video) {
       return "Okay. Let's watch " + video.label + '.';
     },
+    videoTypeNotFound: function(videoType) {
+      return 'Video type ' + videoType + ' not found';
+    }
   };
 });

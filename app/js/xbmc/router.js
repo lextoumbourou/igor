@@ -3,7 +3,9 @@
 var app = angular.module('xbmc.services');
 
 app.factory(
-  'router', ['socket', 'helpers', 'messages', function(xbmcSocket, xbmcHelpers, messages) {
+  'router',
+  ['socket', 'helpers', 'messages', '$q',
+  function(xbmcSocket, xbmcHelpers, messages, $q) {
 
   return {
     /*
@@ -13,6 +15,7 @@ app.factory(
      * track being played.
      */
     xbmcPlayAudioHandler: function(outcome, handler) {
+      var defer = $q.defer();
       var playListId = 0;
       var handler = handler;
       var trackFilter = {};
@@ -39,7 +42,7 @@ app.factory(
            }
 
            if (!song) {
-             return handler({
+             return defer.reject({
                message: messages.songNotFound(),
                body: null
              });
@@ -58,11 +61,13 @@ app.factory(
                 );
               });
 
-            return handler({
+            return defer.resolve({
               message: messages.exactSong(trackFilter, song.label)
             });
           });
       };
+
+      return defer.promise;
     },
 
     /*
@@ -72,6 +77,7 @@ app.factory(
      * more information being returned about audio
      */
     xbmcListAudioHandler: function(outcome, handler, trackFilter) {
+      var defer = $q.defer();
       if (!trackFilter) {
         var trackFilter = {};
       }
@@ -89,11 +95,13 @@ app.factory(
         .then(function(returnedData) {
           var song = null;
 
-          return handler({
+          return defer.resolve({
             body: returnedData.result.songs,
             message: messages.listSongs(trackFilter)
           });
         });
+
+      return defer.promise;
     },
 
     /*
@@ -103,6 +111,7 @@ app.factory(
      * a video being displayed
      */
     xbmcWatchVideoHandler: function(outcome, handler) {
+      var defer = $q.defer();
       var playListId = 1;
       var handler = handler;
       var videoFilter = {};
@@ -123,8 +132,8 @@ app.factory(
         }[videoType];
       }
       catch(err) {
-       return handler({
-         message: 'Huh?',
+       return defer.reject({
+         message: messages.videoTypeNotFound(videoType),
          body: null
        });
      }
@@ -143,7 +152,7 @@ app.factory(
           }
 
           if (!video) {
-            return handler({
+            return defer.resolve({
               message: messages.videoNotFound(),
               body: null
             });
@@ -164,10 +173,12 @@ app.factory(
               );
             });
 
-          return handler({
+          return defer.resolve({
             message: messages.exactVideo(video)
           });
         });
+
+        return defer.promise;
       },
     };
 }]);

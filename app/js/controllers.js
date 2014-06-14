@@ -78,7 +78,7 @@ angular.module('igor.controllers', ['igor.services', 'xbmc.services'])
 
             var intent = data.outcome.intent;
             if (intent in xbmcRouter) {
-              xbmcRouter[intent](data.outcome, function(result) {
+              xbmcRouter[intent](data.outcome).then(function(result) {
                 if ('body' in result && result.body) {
                   $scope.body = result.body;
                 }
