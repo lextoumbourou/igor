@@ -5,7 +5,7 @@ var app = angular.module('xbmc.services');
 app.factory(
   'router',
   ['socket', 'helpers', 'messages', '$q',
-  function(xbmcSocket, xbmcHelpers, messages, $q) {
+  function(socket, helpers, messages, $q) {
 
   return {
     /*
@@ -26,19 +26,19 @@ app.factory(
       };
 
       if ('selection' in entities && entities.selection.value) {
-        xbmcSocket.run('AudioLibrary.GetSongs', {'filter': trackFilter})
+        socket.send('AudioLibrary.GetSongs', {'filter': trackFilter})
           .then(function(returnedData) {
             var song = null;
 
             if (outcome.entities.selection.body === 'exact' || 'song' in outcome.entities.selection) {
 
-              song = xbmcHelpers.findClosestMatch(
+              song = helpers.findClosestMatch(
                 entities.song.value, returnedData.result.songs,
                 maxDistance);
 
            } else if (entities.selection.body === 'random') {
 
-             song = xbmcHelpers.findRandomItem(returnedData.result.songs);
+             song = helpers.findRandomItem(returnedData.result.songs);
            }
 
            if (!song) {
@@ -49,14 +49,14 @@ app.factory(
            }
 
             // Todo: deal with failures!
-            xbmcSocket.run('Playlist.Clear');
-            xbmcSocket.run(
+            socket.send('Playlist.Clear');
+            socket.send(
               'Playlist.Add', {item: {'songid': song.songid}, 'playlistid': playListId});
 
-            xbmcSocket.run('Playlist.GetItems', {'playlistid': playListId})
+            socket.send('Playlist.GetItems', {'playlistid': playListId})
               .then(function(playListData) {
                 var position = playListData.result.items.length - 1;
-                xbmcSocket.run('Player.Open',
+                socket.send('Player.Open',
                    {'item': {'playlistid': playListId, 'position': position}}
                 );
               });
@@ -91,7 +91,7 @@ app.factory(
         'filter': trackFilter,
         'properties': ['title', 'artist', 'genre', 'thumbnail']};
 
-      xbmcSocket.run('AudioLibrary.GetSongs', params)
+      socket.send('AudioLibrary.GetSongs', params)
         .then(function(returnedData) {
           var song = null;
 
@@ -142,13 +142,14 @@ app.factory(
        videoFilter['genre'] =  entities.genre.value;
      };
 
-     xbmcSocket.run(callToMake, {'filter': videoFilter})
+     socket.send(callToMake, {'filter': videoFilter})
        .then(function(returnedData) {
+         console.log(returnedData);
          var videoTypePlural = videoType + 's';
          var video = null;
 
           if ('selection' in entities && entities.selection.value === 'random') {
-            video = xbmcHelpers.findRandomItem(returnedData.result[videoTypePlural]);
+            video = helpers.findRandomItem(returnedData.result[videoTypePlural]);
           }
 
           if (!video) {
@@ -162,13 +163,13 @@ app.factory(
           params.item[videoType + 'id'] = video[videoType + 'id'];
 
           // Todo: deal with failures!
-          xbmcSocket.run('Playlist.Clear');
-          xbmcSocket.run('Playlist.Add', params);
+          socket.send('Playlist.Clear');
+          socket.send('Playlist.Add', params);
 
-          xbmcSocket.run('Playlist.GetItems', {'playlistid': playListId})
+          socket.send('Playlist.GetItems', {'playlistid': playListId})
             .then(function(playListData) {
               var position = playListData.result.items.length - 1;
-              xbmcSocket.run('Player.Open',
+              socket.send('Player.Open',
                  {'item': {'playlistid': playListId, 'position': position}}
               );
             });

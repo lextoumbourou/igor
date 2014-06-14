@@ -42,7 +42,7 @@ angular.module('xbmc.services', [])
     };
 
     return {
-      run: function(method, params) {
+      send: function(method, params) {
         if (!params) {
           params = {};
         }
