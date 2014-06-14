@@ -3,7 +3,8 @@
 angular.module('xbmc.services', [])
   .factory('socket', ['$q', function($q) {
     var callbacks = {};
-    var ws = new WebSocket('ws://10.0.0.19:9090/jsonrpc');
+    var ws = new WebSocket(
+      'ws://' + config.xbmc.ip + ':' + config.xbmc.port + '/jsonrpc');
 
     ws.onopen = function(){  
       console.log("Socket has been opened!");  

@@ -1,6 +1,7 @@
 bower_components/*
 node_modules/*
 private.py
+app/private.js
 *.pyc
 app/vendor
 .coverage
