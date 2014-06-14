@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('igor.controllers', ['igor.services', 'igor.xbmc.services'])
+angular.module('igor.controllers', ['igor.services', 'xbmc.services'])
 .controller('MainController', [
     '$scope',
     '$http',

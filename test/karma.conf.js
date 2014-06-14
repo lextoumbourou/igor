@@ -20,7 +20,9 @@ module.exports = function(config) {
       'app/vendor/angular-mocks/angular-mocks.js',
       'app/vendor/angular-encode-uri/dist/angular-encode-uri.js',
       'app/js/*.js',
-      'app/js/xbmc/*.js',
+      'app/js/xbmc/services.js',
+      'app/js/xbmc/helpers.js',
+      'app/js/xbmc/router.js',
       'test/js/**/*Spec.js'
     ],
 

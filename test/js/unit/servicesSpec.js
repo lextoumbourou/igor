@@ -1,8 +1,8 @@
 'use strict';
 
-describe('igor services', function() {
+describe('igor.services', function() {
 
-  describe('igor speech', function() {
+  describe('speech', function() {
     var $window, speech;
 
     // run before it() function
@@ -28,14 +28,18 @@ describe('igor services', function() {
     });
   });
 
-  describe('igor xbmcHelpers', function() {
+});
+
+describe('xbmc.services', function() {
+
+  describe('helpers', function() {
     var xbmcHelpers;
 
     beforeEach(angular.mock.module('igor'));
 
     beforeEach(function() {
       angular.mock.inject(function($injector) {
-        xbmcHelpers = $injector.get('xbmcHelpers');
+        xbmcHelpers = $injector.get('helpers');
       });
     });
 
@@ -61,6 +65,7 @@ describe('igor services', function() {
       var items = ['first', 'second', 'third'];
       expect(xbmcHelpers.findRandomItem(items)).toEqual('second');
     });
+
   });
 
 });

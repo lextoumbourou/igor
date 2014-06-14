@@ -31,6 +31,8 @@
     <script src="js/directives.js"></script>
     <script src="js/services.js"></script>
     <script src="js/xbmc/services.js"></script>
+    <script src="js/xbmc/helpers.js"></script>
+    <script src="js/xbmc/router.js"></script>
     <script src="js/controllers.js"></script>
   </head>
 
@@ -47,16 +49,16 @@
 				</div>
 			</div>
 
-			<div class="">
-				<p class="lead" ng-bind="subtitle">{{ 'Tell me what you want.' }}</p>
+			<div class="row">
+				<p class="lead" ng-bind="subtitle"></p>
 			</div>
 
-			<div class="row marketing">
+			<div class="row marketing" ng-if="item">
 				<div class="col-lg-12">
 					<div ng-repeat="item in body">
 						<h4><span ng-repeat="artist in item.artist">{{ artist }} - </span>{{ item.label }}</h4>
 						<p ng-if="item.thumbnail">
-							<img width="200" height="200" src="http://10.0.0.69:8080/image/{{ item.thumbnail | encodeUri }}"></img>
+							<img width="200" height="200" src="http://10.0.0.16:8080/image/{{ item.thumbnail | encodeUri }}"></img>
 						</p>
 					</div>
 				</div>
