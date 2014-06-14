@@ -21,11 +21,8 @@ angular.module('igor.services', [])
       }
     };
   })
-  .factory('utterance', function() {
-    return new SpeechSynthesisUtterance();
-  })
-  .factory('speech', ['$window', 'utterance', function($window, utterance) {
-    var msg = utterance;
+  .factory('speech', ['$window', function($window) {
+    var msg = new $window.SpeechSynthesisUtterance();
 
     return {
       say: function(text) {
@@ -34,3 +31,10 @@ angular.module('igor.services', [])
       }
     }
   }])
+  .factory('speechListen', ['$window', function($window) {
+    var recognition = new $window.webkitSpeechRecognition();
+    recognition.lang = "en-AU"
+    recognition.interimResults = true;
+
+    return recognition;
+  }]);
