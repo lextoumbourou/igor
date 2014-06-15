@@ -40,3 +40,18 @@ textarea#action:focus {
     font-size: 16px;
     font-weight: 'bold'
 }
+
+.fade-in.ng-enter, .fade-in.ng-leave {
+  -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 1s;
+  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 1s;
+}
+
+.fade-in.ng-enter,
+.fade-in.ng-leave.ng-leave-active {
+  opacity:0;
+}
+
+.fade-in.ng-leave,
+.fade-in.ng-enter.ng-enter-active {
+  opacity:1;
+}
