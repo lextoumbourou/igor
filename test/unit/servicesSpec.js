@@ -9,12 +9,15 @@ describe('igor.services', function() {
     beforeEach(module('igor'));
 
     beforeEach(function() {
-      $window = {speechSynthesis: { speak: jasmine.createSpy()} };
-      var utterance = {};
+      $window = {
+        speechSynthesis: { speak: jasmine.createSpy() },
+        SpeechSynthesisUtterance: function() {
+          this.text = '';
+        },
+      };
 
       module(function($provide) {
         $provide.value('$window', $window);
-        $provide.value('utterance', utterance);
       });
 
       inject(function($injector) {
@@ -34,6 +37,7 @@ describe('xbmc.services', function() {
 
   describe('helpers', function() {
     var xbmcHelpers;
+    var config;
 
     beforeEach(angular.mock.module('igor'));
 
@@ -41,6 +45,11 @@ describe('xbmc.services', function() {
       angular.mock.inject(function($injector) {
         xbmcHelpers = $injector.get('helpers');
       });
+      config = {
+        xbmc: {
+          ip: '127.0.0.1', port: '9090'
+        }
+      };
     });
 
     it('should match a "close enough" string', function() {
