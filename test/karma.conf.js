@@ -18,6 +18,7 @@ module.exports = function(config) {
       'app/vendor/levenshtein/lib/levenshtein.js',
       'app/vendor/angular/angular.js',
       'app/vendor/angular-mocks/angular-mocks.js',
+      'app/vendor/angular-animate/angular-animate.js',
       'app/vendor/angular-encode-uri/dist/angular-encode-uri.js',
       'app/js/*.js',
       'app/js/xbmc/services.js',

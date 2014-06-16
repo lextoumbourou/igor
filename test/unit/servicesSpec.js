@@ -34,22 +34,25 @@ describe('igor.services', function() {
 });
 
 describe('xbmc.services', function() {
+  var config;
+
+  beforeEach(function() {
+    config = {
+      xbmc: {
+        ip: '127.0.0.1', port: '9090'
+      }
+    };
+  });
 
   describe('helpers', function() {
     var xbmcHelpers;
-    var config;
-
-    beforeEach(angular.mock.module('igor'));
 
     beforeEach(function() {
+      angular.mock.module('igor');
+
       angular.mock.inject(function($injector) {
         xbmcHelpers = $injector.get('helpers');
       });
-      config = {
-        xbmc: {
-          ip: '127.0.0.1', port: '9090'
-        }
-      };
     });
 
     it('should match a "close enough" string', function() {
@@ -74,7 +77,7 @@ describe('xbmc.services', function() {
       var items = ['first', 'second', 'third'];
       expect(xbmcHelpers.findRandomItem(items)).toEqual('second');
     });
-
+    
   });
 
 });
