@@ -36,3 +36,4 @@ Like everything in life, inspired by the movie [Brainscan](http://youtu.be/mT1Vr
 7. Display a large icon like Google Now when in record mode
 8. Create a settings page for XBMC settings
 9. Add TV Show support
+10. Display error when unable to connect to XBMC
