@@ -33,8 +33,6 @@ Like everything in life, inspired by the movie [Brainscan](http://youtu.be/mT1Vr
 4. ~~Remove the Wit proxy and make calls to Wit using just JS and WebSockets~~
 5. Send audio data directly to Wit, removing the need for the Chrome Voice Recognition API
 6. ~~Remove the XBMC proxy :) and make calls to XBMC with JS and WebSockets~~
-7. More to come...
-
-## Sources
-
-http://shapeshed.com/html5-speech-recognition-api/
+7. Display a large icon like Google Now when in record mode
+8. Create a settings page for XBMC settings
+9. Add TV Show support
