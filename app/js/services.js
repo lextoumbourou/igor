@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('igor.services', [])
-  .factory('witService', function($http) {
+  .factory('witService', ['$http', function($http) {
     var witUrl = 'http://api.wit.ai';
     var versionId = '20140401';
     var accessToken = config.accessToken;
@@ -20,7 +20,7 @@ angular.module('igor.services', [])
         return getQuery(query, 'message');
       }
     };
-  })
+  }])
   .factory('speech', ['$window', function($window) {
     var msg = new $window.SpeechSynthesisUtterance();
 
