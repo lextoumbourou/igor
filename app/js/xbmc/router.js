@@ -18,15 +18,17 @@ app.factory(
       var defer = $q.defer();
       var playListId = 0;
       var handler = handler;
+      var params = {};
       var trackFilter = {};
 
+      params.properties = ['title', 'artist', 'genre', 'thumbnail'];
       var entities = outcome.entities;
       if ('artist' in entities && entities.artist.value) {
-        trackFilter.artist = entities.artist.value;
+        params.filter = {artist: entities.artist.value};
       };
 
       if ('selection' in entities && entities.selection.value) {
-        socket.send('AudioLibrary.GetSongs', {'filter': trackFilter})
+        socket.send('AudioLibrary.GetSongs', params)
           .then(function(returnedData) {
             var song = null;
 
@@ -37,7 +39,6 @@ app.factory(
                 maxDistance);
 
            } else if (entities.selection.body === 'random') {
-
              song = helpers.findRandomItem(returnedData.result.songs);
            }
 
@@ -62,6 +63,8 @@ app.factory(
               });
 
             return defer.resolve({
+              selection: song,
+              body: returnedData.result.songs,
               message: messages.exactSong(trackFilter, song.label)
             });
           });
@@ -124,25 +127,32 @@ app.factory(
         videoType = entities.type.value;
       };
 
-      try {
-        var callToMake = 'VideoLibrary.' + {
-          'movie': 'GetMovies',
-          'tvshow': 'GetEpisodes',
-          'musicvideo': 'GetMusicVideos'
-        }[videoType];
-      }
-      catch(err) {
-       return defer.reject({
-         message: messages.videoTypeNotFound(videoType),
-         body: null
-       });
-     }
+      var callToMake;
+      var params = {};
+      params.properties = ['art', 'rating', 'thumbnail', 'playcount', 'file'];
+      if (videoType === 'movie') {
+        callToMake = 'VideoLibrary.GetMovies';
+        if ('genre' in entities && entities.genre.value) {
+          params.filter = {genre: entities.genre.value};
+        };
+      } else if (videoType === 'tvshow') {
+        callToMake = 'VideoLibrary.GetEpisodes';
+        if ('title' in entities && entities.title.value) {
+          params.filter = {title: entities.genre.value};
+        };
+      } else if (videoType ==='musicvideo') {
+        callToMake = 'VideoLibrary.GetMusicVideos';
+      } else {
+        return defer.reject({
+           message: messages.videoTypeNotFound(videoType),
+           body: null
+         });
+      };
 
-     if ('genre' in entities && entities.genre.value) {
-       videoFilter['genre'] =  entities.genre.value;
-     };
+     console.log(videoFilter);
+     console.log(callToMake);
 
-     socket.send(callToMake, {'filter': videoFilter})
+     socket.send(callToMake, params)
        .then(function(returnedData) {
          console.log(returnedData);
          var videoTypePlural = videoType + 's';
@@ -175,6 +185,8 @@ app.factory(
             });
 
           return defer.resolve({
+            selection: video,
+            body: returnedData.result.movies,
             message: messages.exactVideo(video)
           });
         });

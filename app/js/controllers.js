@@ -15,6 +15,7 @@ angular.module('igor.controllers', ['igor.services', 'xbmc.services'])
       $scope.subtitle = 'Tell me what you want';
       $scope.potential = 'Test';
       $scope.isListening = false;
+      $scope.xbmcUrl = 'http://' + config.xbmc.host + ':' + config.xbmc.httpPort;
 
       $scope.lastRecognition = 0;
       $scope.timeBetweenCommands = 3000;
@@ -62,12 +63,11 @@ angular.module('igor.controllers', ['igor.services', 'xbmc.services'])
       $scope.getMeaningOfTitle = function() {
         witService.getMessage($scope.title).
           success(function(data, status) {
+            $scope.result = null;
             var intent = data.outcome.intent;
             if (intent in xbmcRouter) {
               xbmcRouter[intent](data.outcome).then(function(result) {
-                if ('body' in result && result.body) {
-                  $scope.body = result.body;
-                }
+                $scope.result = result;
                 $scope.updateAndPlay(result.message)
               });
             }

@@ -47,8 +47,11 @@
 					<textarea ng-model="title" id="action" ng-enter="getMeaningOfTitle()"></textarea>
 				</div>
 				<div class="col-xs-2">
-					<button class="btn btn-lg btn-success" ng-class="{'btn-success': !isListening, 'btn-danger': isListening}" role="button" ng-click="toggleListening()">
-            <i class="fa fa-microphone" ng-class="{'fa-microphone': !isListening, 'fa-circle': isListening}"></i>
+					<button class="btn btn-lg btn-success"
+									ng-class="{'btn-success': !isListening, 'btn-danger': isListening}"
+									role="button"
+									ng-click="toggleListening()">
+						<i class="fa fa-microphone" ng-class="{'fa-microphone': !isListening, 'fa-circle': isListening}"></i>
 					</button>
 				</div>
 			</div>
@@ -57,24 +60,28 @@
 				<p class="lead" ng-bind="subtitle"></p>
 			</div>
 
-			<div class="row marketing" ng-if="body">
-				<div class="col-lg-12">
-          <div class="body-row">
-            <div ng-repeat="item in body">
-              <div class="item-title"><span ng-repeat="artist in item.artist">{{ artist }} </span></div>
-              <div class="item-label">{{ item.label }}</div>
-              <p ng-if="item.thumbnail">
-                <img width="200" height="200" ng-src="http://10.0.0.19:8080/image/{{ item.thumbnail | encodeUri }}"></img>
-              </p>
-            </div>
-          </div>
+			<div ng-if="result && result.selection" class="fade-in">
+				<h4 ng-if="result.selection.label">{{ result.selection.label }}</h3>
+				<img width="300" height="300" ng-src="{{ xbmcUrl }}/image/{{ result.selection.thumbnail | encodeUri }}"></img>
+				<hr>
+				<h3 ng-if="result.body">Other possibilities</h3>
+			</div>
+
+			<div ng-if="result && result.body" class="fade-in">
+				<div class="row marketing">
+					<div class="col-lg-12">
+						<div class="body-row">
+							<div ng-repeat="item in result.body | limitTo:20">
+								<div class="item-title"><span ng-repeat="artist in item.artist">{{ artist }} </span></div>
+								<div class="item-label">{{ item.label }}</div>
+								<p ng-if="item.thumbnail">
+									<img width="150" height="150" ng-src="{{ xbmcUrl }}/image/{{ item.thumbnail | encodeUri }}"></img>
+								</p>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-
-			<div class="footer">
-				<p>&copy; Company 2014</p>
-			</div>
-
 		</div> <!-- /container -->
   </body>
 </html>
