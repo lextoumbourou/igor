@@ -88,4 +88,7 @@ angular.module('igor.controllers', ['igor.services', 'xbmc.services'])
           speechListen.start();
         };
       };
-  }]);
+  }])
+  .controller('ListenCtrl', function() {
+    console.log("I'm listening");
+  });
