@@ -9,6 +9,7 @@
     "angular-encode-uri": "~0.0.1",
     "angular-mocks": "~1.2.16",
     "levenshtein": "~1.0.4",
-    "angular-animate": "~1.2.18"
+    "angular-animate": "~1.2.18",
+    "angular-route": "~1.2.18"
   }
 }
