@@ -1,7 +1,7 @@
 <div class="container" ng-controller="MainController">
   <div class="row header-box">
     <div class="col-xs-10">
-      <textarea ng-model="title" id="action" ng-enter="getMeaningOfTitle()"></textarea>
+      <textarea ng-model="speechResult.message" id="action" ng-enter="getMeaningOfTitle()", placeholder="Speak or type..."></textarea>
     </div>
     <div class="col-xs-2">
       <button class="btn btn-lg btn-success"

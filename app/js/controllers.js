@@ -4,13 +4,17 @@ angular.module('igor.controllers', ['igor.services', 'xbmc.services'])
 .controller('MainController', [
     '$scope',
     '$http',
+    '$location',
     'witService',
     'router',
     'speech',
     'speechListen',
-    function ($scope, $http, witService, xbmcRouter, speech, speechListen) {
+    'speechResult',
+    function (
+      $scope, $http, $location, witService,
+      xbmcRouter, speech, speechListen, speechResult) {
 
-      $scope.title = 'Why Not?';
+      $scope.speechResult = speechResult;
       $scope.body = null;
       $scope.subtitle = 'Tell me what you want';
       $scope.potential = 'Test';
@@ -29,22 +33,18 @@ angular.module('igor.controllers', ['igor.services', 'xbmc.services'])
         speech.say(msg);
       }
 
-      speechListen.onresult = function(event) {
-        var result = '';
-        for (var i = event.resultIndex; i < event.results.length; i++) {
-          $scope.$apply(function() {
-            $scope.title = event.results[i][0].transcript;
-          });
-        };
-      };
-
       speechListen.onstart = function() {
+        if (!$scope.results) {
+          $location.path('/listen');
+        }
+
         $scope.isListening = true;
       };
 
       speechListen.onend = function() {
+        $location.path('/result');
         $scope.isListening = false;
-        if ($scope.title) {
+        if (speechResult.message) {
           $scope.getMeaningOfTitle();
         };
       };
@@ -61,7 +61,7 @@ angular.module('igor.controllers', ['igor.services', 'xbmc.services'])
       };
 
       $scope.getMeaningOfTitle = function() {
-        witService.getMessage($scope.title).
+        witService.getMessage(speechResult.message).
           success(function(data, status) {
             $scope.result = null;
             var intent = data.outcome.intent;
@@ -89,6 +89,9 @@ angular.module('igor.controllers', ['igor.services', 'xbmc.services'])
         };
       };
   }])
-  .controller('ListenCtrl', function() {
-    console.log("I'm listening");
-  });
+  .controller('ListenCtrl', ['$scope', 'speechResult', 'speechListen', function($scope, speechResult, speechListen) {
+    $scope.speechResult = speechResult;
+    $scope.stopSpeech = function() {
+      speechListen.stop();
+    }
+  }]);

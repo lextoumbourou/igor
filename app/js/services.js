@@ -31,10 +31,24 @@ angular.module('igor.services', [])
       }
     }
   }])
-  .factory('speechListen', ['$window', function($window) {
+  .factory('speechListen', ['$window', 'speechResult', '$rootScope', function($window, speechResult, $rootScope) {
     var recognition = new $window.webkitSpeechRecognition();
     recognition.lang = "en-AU"
     recognition.interimResults = true;
 
+    recognition.onresult = function(event) {
+      var result = '';
+      for (var i = event.resultIndex; i < event.results.length; i++) {
+        $rootScope.$apply(function() {
+          speechResult.message = event.results[i][0].transcript;
+        });
+      };
+    };
+
     return recognition;
-  }]);
+  }])
+  .factory('speechResult', function() {
+    return {
+      message: null
+    }
+  });
