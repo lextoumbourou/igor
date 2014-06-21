@@ -11,9 +11,6 @@ var app = angular.module('igor', [
 
 app.config(['$routeProvider', function($routeProvider) {
   $routeProvider.
-    when('/listen', {
-      templateUrl: 'partials/listen.html',
-      controller: 'ListenCtrl'
     }).
     when('/result', {
       templateUrl: 'partials/results.html',

@@ -33,20 +33,7 @@ angular.module('igor.controllers', ['igor.services', 'xbmc.services'])
         speech.say(msg);
       }
 
-      speechListen.onstart = function() {
-        if (!$scope.results) {
-          $location.path('/listen');
-        }
-
-        $scope.isListening = true;
-      };
-
-      speechListen.onend = function() {
-        $location.path('/result');
         $scope.isListening = false;
-        if (speechResult.message) {
-          $scope.getMeaningOfTitle();
-        };
       };
 
       speechListen.onerror = function(error) {
@@ -89,9 +76,4 @@ angular.module('igor.controllers', ['igor.services', 'xbmc.services'])
         };
       };
   }])
-  .controller('ListenCtrl', ['$scope', 'speechResult', 'speechListen', function($scope, speechResult, speechListen) {
-    $scope.speechResult = speechResult;
-    $scope.stopSpeech = function() {
-      speechListen.stop();
-    }
   }]);
