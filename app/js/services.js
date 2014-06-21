@@ -44,13 +44,23 @@ angular.module('igor.services', [])
 
     var recognition = new SpeechRecognition();
 
+    recognition.lang = "en-US"
     recognition.interimResults = true;
+    recognition.continuous = true;
+    recognition.handleFinal = function() {}; // to be overwritten
 
     recognition.onresult = function(event) {
-      var result = '';
+      speechResult.message = '';
       for (var i = event.resultIndex; i < event.results.length; i++) {
         $rootScope.$apply(function() {
-          speechResult.message = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            speechResult.message =
+              event.results[i][0].transcript + ' (Confidence: ' + event.results[i][0].confidence + ')';
+            recognition.handleFinal(event.results[i][0].transcript);
+          }
+          else {
+              speechResult.message += event.results[i][0].transcript;
+          }
         });
       };
     };

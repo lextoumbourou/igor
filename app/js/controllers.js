@@ -27,13 +27,15 @@ angular.module('igor.controllers', ['igor.services', 'xbmc.services'])
       $scope.interimTranscript = ''
       $scope.finalTranscript = '';
 
-      $scope.updateAndPlay = function(msg) {
-        $scope.subtitle = msg;
-        speechListen.stop();
-        speech.say(msg);
+      $scope.updateAndPlay = function(result) {
+        
+        speech.say(result.message);
       }
 
+      speechListen.handleFinal = function(speechResults) {
         $scope.isListening = false;
+        speechListen.stop();
+        $scope.getMeaningOfTitle(speechResults);
       };
 
       speechListen.onerror = function(error) {
@@ -47,15 +49,16 @@ angular.module('igor.controllers', ['igor.services', 'xbmc.services'])
         };
       };
 
-      $scope.getMeaningOfTitle = function() {
-        witService.getMessage(speechResult.message).
+      $scope.getMeaningOfTitle = function(speechResults) {
+        witService.getMessage(speechResults).
           success(function(data, status) {
             $scope.result = null;
             var intent = data.outcome.intent;
             if (intent in xbmcRouter) {
               xbmcRouter[intent](data.outcome).then(function(result) {
+                $scope.subtitle = result.message;
                 $scope.result = result;
-                $scope.updateAndPlay(result.message)
+                $scope.updateAndPlay(result)
               });
             }
             else {
@@ -70,9 +73,11 @@ angular.module('igor.controllers', ['igor.services', 'xbmc.services'])
       $scope.toggleListening = function() {
         if ($scope.isListening) {
           speechListen.stop();
+          $scope.isListening = false;
         }
         else if (!$scope.isListening) {
           speechListen.start();
+          $scope.isListening = true;
         };
       };
   }])
