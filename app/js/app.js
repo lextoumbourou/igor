@@ -11,6 +11,9 @@ var app = angular.module('igor', [
 
 app.config(['$routeProvider', function($routeProvider) {
   $routeProvider.
+    when('/settings', {
+      templateUrl: 'partials/settings.html',
+      controller: 'SettingsController'
     }).
     when('/result', {
       templateUrl: 'partials/results.html',

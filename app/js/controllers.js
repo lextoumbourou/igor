@@ -76,4 +76,6 @@ angular.module('igor.controllers', ['igor.services', 'xbmc.services'])
         };
       };
   }])
+  .controller('SettingsController', ['$scope', 'config', function($scope, config) {
+    $scope.config = config;
   }]);
