@@ -32,8 +32,18 @@ angular.module('igor.services', [])
     }
   }])
   .factory('speechListen', ['$window', 'speechResult', '$rootScope', function($window, speechResult, $rootScope) {
-    var recognition = new $window.webkitSpeechRecognition();
-    recognition.lang = "en-AU"
+    var SpeechRecognition = $window.SpeechRecognition ||
+                            $window.webkitSpeechRecognition ||
+                            $window.mozSpeechRecognition ||
+                            $window.msSpeechRecognition ||
+                            $window.oSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      return null;
+    }
+
+    var recognition = new SpeechRecognition();
+
     recognition.interimResults = true;
 
     recognition.onresult = function(event) {
