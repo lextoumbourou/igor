@@ -71,4 +71,18 @@ angular.module('igor.services', [])
     return {
       message: null
     }
+  })
+  .factory('config', function() {
+    var witToken = null;
+
+    var xbmcDefault = {
+      'host': null,
+      'wsPort': 9090,
+      'httpPort': 8080
+    };
+
+    return {
+      witToken: null,
+      xbmc: xbmcDefault
+    }
   });
