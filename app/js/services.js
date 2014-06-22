@@ -54,8 +54,8 @@ angular.module('igor.services', [])
       for (var i = event.resultIndex; i < event.results.length; i++) {
         $rootScope.$apply(function() {
           if (event.results[i].isFinal) {
-            speechResult.message =
-              event.results[i][0].transcript + ' (Confidence: ' + event.results[i][0].confidence + ')';
+            speechResult.message = event.results[i][0].transcript;
+            console.log('Confidence score: ' + event.results[i][0].confidence);
             recognition.handleFinal(event.results[i][0].transcript);
           }
           else {
