@@ -2,15 +2,10 @@ textarea#action {
     background: none;
     border: none;
     width: 100%;
-    font-size: 25px;
 }
 
 textarea#action:focus {
     outline: 0;
-}
-
-.header-box {
-    background-color: #eee;
 }
 
 .body-row {
@@ -26,6 +21,10 @@ textarea#action:focus {
     text-align: left;
     margin: 10px;
     width: 250px;
+}
+
+div.selection {
+    text-align: center;
 }
 
 .item-title {
