@@ -23,3 +23,9 @@ app.config(['$routeProvider', function($routeProvider) {
       redirectTo: '/result'
     });
 }]);
+
+var autoGrow = function (oField) {
+  if (oField.scrollHeight > oField.clientHeight) {
+    oField.style.height = oField.scrollHeight + "px";
+  }
+}

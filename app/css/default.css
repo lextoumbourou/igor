@@ -2,6 +2,7 @@ textarea#action {
     background: none;
     border: none;
     width: 100%;
+    overflow: hidden;
 }
 
 textarea#action:focus {
