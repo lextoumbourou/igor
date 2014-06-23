@@ -15,4 +15,13 @@ angular.module('igor.directives', []).
               }
           });
       };
+  })
+  .directive('autoGrow', function() {
+    return function(scope, element, attrs) {
+      element.bind('keyup', function(event) {
+        if (this.scrollHeight > this.clientHeight) {
+          this.style.height = this.scrollHeight + 'px';
+        }
+      });
+    }
   });
