@@ -206,6 +206,38 @@ app.factory(
         });
 
         return defer.promise;
+      },
+      xbmcPlayerControl: function(outcome) {
+        var defer = $q.defer();
+        var entities = outcome.entities;
+
+        if (entities.control) {
+          if (entities.control.value == 'stop') {
+            socket.send('Player.GetActivePlayers', {})
+              .then(function(playerData) {
+                console.log(playerData.result.length);
+                if (playerData.result.length > 0) {
+                  for (var i = 0; i < playerData.result.length; i++) {
+                    var player = playerData.result[i];
+                    socket.send('Player.Stop', {'playerid': player.playerid})
+                      .then(function(resultData) {
+                        console.log(resultData);
+                      });
+                  }
+                  return defer.resolve({
+                    message: messages.stopPlaying()
+                  });
+                }
+                else {
+                  return defer.resolve({
+                    message: messages.nothingToStop()
+                  });
+                };
+              });
+          }
+        }
+
+        return defer.promise;
       }
     };
 }]);

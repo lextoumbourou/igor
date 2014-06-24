@@ -31,6 +31,12 @@ app.factory('messages', function() {
     },
     videoTypeNotFound: function(videoType) {
       return 'Video type ' + videoType + ' not found';
-    }
+    },
+    nothingToStop: function() {
+      return "I don't think there's anything playing?"
+    },
+    stopPlaying: function() {
+      return "Okay, I'm stopping the player";
+    },
   };
 });
