@@ -9,6 +9,28 @@ textarea#action:focus {
     outline: 0;
 }
 
+.intro {
+    display: table;
+    width: 100%;
+    height: 836px;
+    padding: 100px 0;
+    text-align: center;
+    color: #fff;
+    background: url(../img/intro-bg.jpg) no-repeat bottom center scroll;
+    background-color: #000;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+.intro-body {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+
+
 .body-row {
     display: flex;
     flex-direction: row;
