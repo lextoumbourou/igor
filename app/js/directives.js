@@ -26,10 +26,8 @@ angular.module('igor.directives', []).
     }
   })
   .directive('skrollr', function() {
-    var directiveDefinitionObject = {
-      link: function() {
-        skrollr.init();
-      }
+    return function() {
+      skrollr.init();
     };
 
     return directiveDefinitionObject;
