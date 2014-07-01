@@ -29,6 +29,19 @@ angular.module('igor.directives', []).
     return function() {
       skrollr.init();
     };
+  })
+  .directive('resizeOnWindow', function($window) {
+    return function(scope) {
+      scope.initScopeWindowSize = function() {
+        scope.windowHeight = $window.innerHeight;
+        scope.windowWidth = $window.innerWidth;
+      }
 
-    return directiveDefinitionObject;
+      scope.initScopeWindowSize();
+
+      angular.element($window).bind('resize', function() {
+        scope.initScopeWindowSize();
+        return scope.$apply();
+      });
+    }
   }); 
