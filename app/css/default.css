@@ -9,15 +9,25 @@ textarea#action:focus {
     outline: 0;
 }
 
-.intro {
-    display: table;
-    width: 100%;
-    height: 836px;
-    padding: 100px 0;
-    text-align: center;
+section {
+    padding: 200px 0;
+    
+}
+
+#intro {
     color: #fff;
+    text-align: center;
     background: url(../img/intro-bg.jpg) no-repeat bottom center scroll;
     background-color: #000;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+#result {
+    color: #fff;
+    background-color: #801515;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;

@@ -1,6 +1,7 @@
 <span ng-controller="MainController">
 	
-	<section skrollr data-0="opacity:1; top: 50%;" data-500="opacity: 0; top: -50%;" class="intro">
+	<section id="intro" skrollr data-0="opacity: 1" data-500="opacity: 0"
+					 resize-on-window ng-style="{width: windowWidth + 'px', height: windowHeight + 'px'}">
 		<div class="intro-body">
 			<div class="container">
 				<div class="row">
@@ -28,9 +29,10 @@
 				</div>
 			</div>
 		</div>
+
 	</section>
 
-	<section class="result">
+	<section id="result" resize-on-window ng-style="{width: windowWidth + 'px', height: windowHeight + 'px'}" ng-if="result">
 		<h3>Results</h3>
 		<div ng-if="result && result.selection" class="fade-in selection">
 			<h4 ng-if="result.selection.label">{{ result.selection.label }}</h3>
@@ -54,6 +56,7 @@
 				</div>
 			</div>
 		</div>
+
 	</section>
 
 </span>
