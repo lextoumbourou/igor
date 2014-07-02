@@ -1,6 +1,6 @@
-# Igor - XBMC and Wit.ai voice-recognition experiment
+# Igor - XBMC voice-recognition experiment (powered by [Wit.ai](https://wit.ai/))
 
-A very simple voice-recognition proof of concept for XBMC using [Wit's](https://wit.ai/) API.
+**Warning: this software doesn't work yet!**
 
 Like everything in life, inspired by the movie [Brainscan](http://youtu.be/mT1Vr13s17U?t=25m33s) (25m 33s).
 
