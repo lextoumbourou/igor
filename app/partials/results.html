@@ -3,30 +3,23 @@
 	<section id="intro" skrollr data-0="opacity: 1" data-500="opacity: 0"
 					 resize-on-window ng-style="{width: windowWidth + 'px', height: windowHeight + 'px'}">
 		<div class="intro-body">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-8 col-md-offset-2">
-						<h1 class="brand-heading">
-							<textarea
-								auto-grow
-								ng-model="speechResult.message"
-								id="action"
-								ng-enter="getMeaningOfTitle(speechResult.message)"
-								placeholder="Speak or type...">
-							</textarea>
-						</h1>
-						<p class="intro-text" ng-bind="subtitle"></p>
-						<div class="page-scroll">
-							<button class="btn btn-lg btn-success"
-											ng-class="{'btn-success': !isListening, 'btn-danger': isListening}"
-											role="button"
-											ng-click="toggleListening()">
-								<i class="fa fa-microphone" ng-class="{'fa-microphone': !isListening, 'fa-circle': isListening}"></i>
-							</button>
-						</div>
-						
-					</div>
-				</div>
+			<h1 class="brand-heading">
+				<textarea
+					auto-grow
+					ng-model="speechResult.message"
+					id="action"
+					ng-enter="getMeaningOfTitle(speechResult.message)"
+					placeholder="Speak or type...">
+				</textarea>
+			</h1>
+			<p class="intro-text" ng-bind="subtitle"></p>
+			<div class="page-scroll">
+				<button class="btn btn-lg btn-success"
+								ng-class="{'btn-success': !isListening, 'btn-danger': isListening}"
+								role="button"
+								ng-click="toggleListening()">
+					<i class="fa fa-microphone" ng-class="{'fa-microphone': !isListening, 'fa-circle': isListening}"></i>
+				</button>
 			</div>
 		</div>
 

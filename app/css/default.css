@@ -35,11 +35,13 @@ section {
 }
 
 .intro-body {
-    display: table-cell;
-    vertical-align: middle;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 674px;
+    max-width: 60%;
+    margin: -142px 0 0 -337px;
 }
-
-
 
 .body-row {
     display: flex;
