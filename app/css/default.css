@@ -1,3 +1,13 @@
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) {
+  textarea#action {
+    font-size: 30px;
+  }
+  
+}
+
 textarea#action {
     background: none;
     border: none;
@@ -38,9 +48,12 @@ section {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 674px;
-    max-width: 60%;
-    margin: -142px 0 0 -337px;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    max-width: 80%;
 }
 
 .body-row {
@@ -89,3 +102,12 @@ div.selection {
 .fade-in.ng-enter.ng-enter-active {
   opacity:1;
 }
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) {
+  /* Styles */
+  
+}
+
